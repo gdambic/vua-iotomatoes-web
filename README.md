@@ -1,30 +1,22 @@
-# [Vue Light Bootstrap Dashboard](vuejs.creative-tim.com/vue-light-bootstrap-dashboard) [![version][version-badge]][CHANGELOG] [![license][license-badge]][LICENSE]
+# [Vue Paper Dashboard](https://cristijora.github.io/vue-paper-dashboard/) [![version][version-badge]][CHANGELOG] [![license][license-badge]][LICENSE]
 
-> Admin dashboard based on light bootstrap dashboard UI template + vue-router
+> Admin dashboard based on paper dashboard UI template + vue-router
 
-This project is a vue version of [Light bootstrap dashboard](https://www.creative-tim.com/product/light-bootstrap-dashboard)
-designed for vue js. The dashboard includes Bootstrap 4, vue-router, chartist, google-maps and several other plugins/components.
+This project is a vue version of [Paper-dashboard](https://www.creative-tim.com/product/paper-dashboard)
+designed for vue js.The dashboard includes vue-router and vuex
 
-Check the [Live Demo here](vuejs.creative-tim.com/vue-light-bootstrap-dashboard).
+Check the [Live Demo here](https://cristijora.github.io/vue-paper-dashboard).
 
-![](static/Dashboard.PNG)
-## :rocket: Getting started
+![](http://i.imgur.com/3iC1hOs.gif)
 
-Vue Light Bootstrap Dashboard is built on top of Bootstrap 4, Vuejs and Vue-router. To get started do the following steps:
-1. Download the project
-2. Make sure you have node.js (https://nodejs.org/en/) installed
-3. Type `npm install` in the source folder where `package.json` is located
-4. Type `npm run dev` to start the development server
+## Documentation
+Link to [Documentation](https://cristijora.github.io/vue-paper-dashboard-docs/#/)
 
-The repo uses [vue-cli](https://github.com/vuejs/vue-cli) scaffolding which takes care of the development setup with webpack and all the necessary modern tools to make web development faster and easier.
-
-## [Documentation](https://cristijora.github.io/vue-light-bootstrap-dashboard/documentation/#/buttons)
-
-## :cloud: Build Setup
+## Build Setup
 
 ### install dependencies
 `npm install`
-### serve with hot reload at localhost:8000
+### serve with hot reload at localhost:8080
 `npm run dev`
 ### build for production with minification
 `npm run build`
@@ -33,9 +25,19 @@ The repo uses [vue-cli](https://github.com/vuejs/vue-cli) scaffolding which take
 ### run and watch unit tests
 `npm run unit:watch`
 
-## :clipboard: Contribution guide
+## Contribution guide
 * `npm install` or `yarn install`
+* If you use 3rd party libraries/components in more than 1 place make sure to define them globally for ease of use
+  Example
+  ```js
+  Object.defineProperty(Vue.prototype, '$Chartist', {
+    get() {
+      return Chartist;
+    }
+  });
+  ```
 * Please don't use jQuery or jQuery based plugins since there are many pure Vue alternatives
+* Write unit tests for your custom components. See fgInput.spec and paper-table.spec
 
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 

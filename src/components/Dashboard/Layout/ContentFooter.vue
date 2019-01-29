@@ -1,14 +1,14 @@
 <template>
   <footer class="footer">
     <div class="container-fluid">
-      <nav>
-        <ul class="footer-menu">
+      <nav class="pull-left">
+        <ul>
           <li>
             <router-link :to="{path:'/admin'}">Dashboard</router-link>
           </li>
         </ul>
       </nav>
-      <div class="copyright text-center">
+      <div class="copyright pull-right">
         &copy; Coded with
         <i class="fa fa-heart heart"></i> by
         <a href="https://github.com/cristijora" target="_blank">Cristi Jora</a>.

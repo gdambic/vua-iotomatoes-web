@@ -1,45 +1,25 @@
 <template>
-  <div class="content">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-12">
-          <card>
-            <template slot="header">
-              <h4 class="card-title">Striped Table with Hover</h4>
-              <p class="card-category">Here is a subtitle for this table</p>
-            </template>
-            <div class="table-responsive">
-              <l-table class="table-hover table-striped"
-                       :columns="table1.columns"
-                       :data="table1.data">
-              </l-table>
-            </div>
-          </card>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <paper-table :title="table1.title" :sub-title="table1.subTitle" :data="table1.data" :columns="table1.columns">
 
+          </paper-table>
         </div>
-
-        <div class="col-12">
-          <card class="card-plain">
-            <template slot="header">
-              <h4 class="card-title">Table on Plain Background</h4>
-              <p class="card-category">Here is a subtitle for this table</p>
-            </template>
-            <div class="table-responsive">
-              <l-table class="table-hover"
-                       :columns="table2.columns"
-                       :data="table2.data">
-              </l-table>
-            </div>
-          </card>
-        </div>
-
       </div>
+
+      <div class="col-md-12">
+        <div class="card card-plain">
+          <paper-table type="hover" :title="table1.title" :sub-title="table1.subTitle" :data="table1.data" :columns="table1.columns">
+
+          </paper-table>
+        </div>
+      </div>
+
     </div>
-  </div>
 </template>
 <script>
-  import LTable from 'src/components/UIComponents/Table.vue'
-  import Card from 'src/components/UIComponents/Cards/Card.vue'
+  import PaperTable from 'components/UIComponents/PaperTable.vue'
   const tableColumns = ['Id', 'Name', 'Salary', 'Country', 'City']
   const tableData = [{
     id: 1,
@@ -76,24 +56,30 @@
     country: 'Malawi',
     city: 'Feldkirchen in Kärnten'
   }]
+
   export default {
     components: {
-      LTable,
-      Card
+      PaperTable
     },
     data () {
       return {
         table1: {
+          title: 'Stripped Table',
+          subTitle: 'Here is a subtitle for this table',
           columns: [...tableColumns],
           data: [...tableData]
         },
         table2: {
+          title: 'Table on Plain Background',
+          subTitle: 'Here is a subtitle for this table',
           columns: [...tableColumns],
           data: [...tableData]
         }
       }
     }
   }
+
 </script>
 <style>
+
 </style>

@@ -1,35 +1,23 @@
 <template>
-  <li class="dropdown nav-item"
-      :is="tag"
-      :class="{show: isOpen}"
-      aria-haspopup="true"
-      :aria-expanded="isOpen"
-      @click="toggleDropDown"
-      v-click-outside="closeDropDown">
-
-    <a class="nav-link dropdown-toggle"
-       data-toggle="dropdown">
+  <li class="dropdown" :class="{open:isOpen}" @click="toggleDropDown">
+    <a class="dropdown-toggle btn-rotate" data-toggle="dropdown" >
       <slot name="title">
         <i :class="icon"></i>
-        <span class="no-icon">{{title}}</span>
-        <b class="caret"></b>
+        <p class="notification">{{title}}
+          <b class="caret"></b>
+        </p>
       </slot>
     </a>
-    <div class="dropdown-menu" v-show="isOpen">
+    <ul class="dropdown-menu">
       <slot></slot>
-    </div>
+    </ul>
   </li>
 </template>
 <script>
-  export default {
-    name: 'drop-down',
+  export default{
     props: {
       title: String,
-      icon: String,
-      tag: {
-        type: String,
-        default: 'li'
-      }
+      icon: String
     },
     data () {
       return {
@@ -39,17 +27,10 @@
     methods: {
       toggleDropDown () {
         this.isOpen = !this.isOpen
-        this.$emit('change', this.isOpen)
       },
       closeDropDown () {
         this.isOpen = false
-        this.$emit('change', this.isOpen)
       }
     }
   }
 </script>
-<style scoped>
-  .dropdown .dropdown-toggle{
-    cursor: pointer;
-  }
-</style>

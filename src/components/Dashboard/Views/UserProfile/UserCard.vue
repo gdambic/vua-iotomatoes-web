@@ -1,32 +1,39 @@
 <template>
-  <card class="card-user">
-    <img slot="image" src="https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400" alt="..."/>
-    <div class="author">
-      <a href="#">
-        <img class="avatar border-gray" src="static/img/faces/face-3.jpg" alt="..."/>
-
-        <h4 class="title">Mike Andrew<br />
-          <small>michael24</small>
+  <div class="card card-user">
+    <div class="image">
+      <img src="static/img/background.jpg" alt="...">
+    </div>
+    <div class="content">
+      <div class="author">
+        <img class="avatar border-white" src="static/img/faces/face-2.jpg" alt="...">
+        <h4 class="title">Chet Faker
+          <br>
+          <a href="#">
+            <small>@chetfaker</small>
+          </a>
         </h4>
-      </a>
+      </div>
+      <p class="description text-center">
+        "I like the way you work it
+        <br> No diggity
+        <br> I wanna bag it up"
+      </p>
     </div>
-    <p class="description text-center"> "Lamborghini Mercy <br>
-      Your chick she so thirsty <br>
-      I'm in that two seat Lambo"
-    </p>
-    <div slot="footer" class="text-center">
-      <button href="#" class="btn btn-simple"><i class="fa fa-facebook-square"></i></button>
-      <button href="#" class="btn btn-simple"><i class="fa fa-twitter"></i></button>
-      <button href="#" class="btn btn-simple"><i class="fa fa-google-plus-square"></i></button>
+    <hr>
+    <div class="text-center">
+      <div class="row">
+        <div v-for="(info,index) in details" :class="getClasses(index)">
+          <h5>{{info.title}}
+            <br>
+            <small>{{info.subTitle}}</small>
+          </h5>
+        </div>
+      </div>
     </div>
-  </card>
+  </div>
 </template>
 <script>
-  import Card from 'src/components/UIComponents/Cards/Card.vue'
   export default {
-    components: {
-      Card
-    },
     data () {
       return {
         details: [
@@ -61,5 +68,5 @@
 
 </script>
 <style>
-
+  
 </style>

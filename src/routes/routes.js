@@ -5,11 +5,11 @@ import NotFound from '../components/GeneralViews/NotFoundPage.vue'
 // Admin pages
 import Overview from 'src/components/Dashboard/Views/Overview.vue'
 import UserProfile from 'src/components/Dashboard/Views/UserProfile.vue'
-import TableList from 'src/components/Dashboard/Views/TableList.vue'
-import Typography from 'src/components/Dashboard/Views/Typography.vue'
+import Notifications from 'src/components/Dashboard/Views/Notifications.vue'
 import Icons from 'src/components/Dashboard/Views/Icons.vue'
 import Maps from 'src/components/Dashboard/Views/Maps.vue'
-import Notifications from 'src/components/Dashboard/Views/Notifications.vue'
+import Typography from 'src/components/Dashboard/Views/Typography.vue'
+import TableList from 'src/components/Dashboard/Views/TableList.vue'
 
 const routes = [
   {
@@ -20,42 +20,42 @@ const routes = [
   {
     path: '/admin',
     component: DashboardLayout,
-    redirect: '/admin/overview',
+    redirect: '/admin/stats',
     children: [
       {
         path: 'overview',
-        name: 'Overview',
+        name: 'overview',
         component: Overview
       },
       {
-        path: 'user',
-        name: 'User',
+        path: 'stats',
+        name: 'stats',
         component: UserProfile
       },
       {
-        path: 'table-list',
-        name: 'Table List',
-        component: TableList
-      },
-      {
-        path: 'typography',
-        name: 'Typography',
-        component: Typography
+        path: 'notifications',
+        name: 'notifications',
+        component: Notifications
       },
       {
         path: 'icons',
-        name: 'Icons',
+        name: 'icons',
         component: Icons
       },
       {
         path: 'maps',
-        name: 'Maps',
+        name: 'maps',
         component: Maps
       },
       {
-        path: 'notifications',
-        name: 'Notifications',
-        component: Notifications
+        path: 'typography',
+        name: 'typography',
+        component: Typography
+      },
+      {
+        path: 'table-list',
+        name: 'table-list',
+        component: TableList
       }
     ]
   },
