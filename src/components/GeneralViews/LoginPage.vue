@@ -6,7 +6,11 @@
           <div class="header">
             <div class="row">
               <div class="col-lg-6 col-lg-offset-3">
-                <img src="../../../static/img/app-logo.png" alt="app_logo" class="img-responsive login-logo">
+                <img
+                  src="../../../static/img/app-logo.png"
+                  alt="app_logo"
+                  class="img-responsive login-logo"
+                >
               </div>
             </div>
             <div class="row" style="margin-top: 10px;">
@@ -16,12 +20,13 @@
             </div>
           </div>
           <div class="content">
-            <form>
+            <form @submit.prevent="onLoginSubmit" @keypress.enter="onLoginSubmit">
               <div class="row">
                 <div class="col-lg-12">
                   <fg-input
                     type="text"
                     label="Username"
+                    name="username"
                     placeholder="Username"
                     v-model="user.username"
                   />
@@ -32,6 +37,7 @@
                   <fg-input
                     type="password"
                     label="Password"
+                    name="password"
                     placeholder="Your password"
                     v-model="user.password"
                   />
@@ -39,7 +45,7 @@
               </div>
               <div class="row">
                 <div class="col-lg-12 text-right">
-                  <button class="btn btn-primary">
+                  <button class="btn btn-primary" type="submit">
                     <i class="ti-shift-right icon"></i>Login
                   </button>
                 </div>
@@ -53,16 +59,33 @@
 </template>
 
 <script>
+import Api from '../../utils/api';
+
 export default {
-  data () {
+  data() {
     return {
       user: {
         username: null,
         password: null
       }
+    };
+  },
+  methods: {
+    async onLoginSubmit(e) {
+      const { username, password } = this.user;
+
+      if((username == null || username === '') || (password == null || password == '')){
+        alert("Enter username or password")
+        return false;
+      }
+
+      const response = await Api.login(this.user);
+      console.log(response);
+      
+      this.$router.replace({ name: 'overview', params: { user: response.data } })
     }
   }
-}
+};
 </script>
 
 <style scoped>

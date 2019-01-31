@@ -4,7 +4,7 @@ var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
 var webpack = require('webpack')
 
-function resolve (dir) {
+function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
 
@@ -19,13 +19,13 @@ var webpackConfig = {
       ? config.build.assetsPublicPath
       : config.dev.assetsPublicPath
   },
- /* plugins: [
-    new webpack.ProvidePlugin({
-      $: "jquery",
-      jQuery: "jquery",
-      jquery: "jquery"
-    })
-  ],*/
+  /* plugins: [
+     new webpack.ProvidePlugin({
+       $: "jquery",
+       jQuery: "jquery",
+       jquery: "jquery"
+     })
+   ],*/
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     modules: [
@@ -81,7 +81,7 @@ var esLintRule = {
   }
 }
 
-if(process.env.ENABLE_ESLINT && process.env.ENABLE_ESLINT === 'true'){
+if (process.env.ENABLE_ESLINT && process.env.ENABLE_ESLINT === 'true') {
   webpackConfig.module.rules.unshift(esLintRule) //add eslint
 }
 
