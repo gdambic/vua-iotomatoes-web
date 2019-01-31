@@ -2,7 +2,12 @@
   <nav class="navbar navbar-default">
     <div class="container-fluid">
       <div class="navbar-header">
-        <button type="button" class="navbar-toggle" :class="{toggled: $sidebar.showSidebar}" @click="toggleSidebar">
+        <button
+          type="button"
+          class="navbar-toggle"
+          :class="{toggled: $sidebar.showSidebar}"
+          @click="toggleSidebar"
+        >
           <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar bar1"></span>
           <span class="icon-bar bar2"></span>
@@ -12,65 +17,48 @@
       </div>
       <div class="navbar-right-menu">
         <ul class="nav navbar-nav navbar-right">
-          <li class="open">
-            <a href="#" class="dropdown-toggle btn-magnify" data-toggle="dropdown">
-              <i class="ti-panel"></i>
-              <p>Stats</p>
-            </a>
-          </li>
-             <drop-down title="5 Notifications" icon="ti-bell">
-               <li><a href="#">Notification 1</a></li>
-               <li><a href="#">Notification 2</a></li>
-               <li><a href="#">Notification 3</a></li>
-               <li><a href="#">Notification 4</a></li>
-               <li><a href="#">Another notification</a></li>
-             </drop-down>
-          <li>
-            <a href="#" class="btn-rotate">
-              <i class="ti-settings"></i>
-              <p>
-                Settings
-              </p>
-            </a>
-          </li>
+          <drop-down :title="username" icon="ti-user icon">
+            <li>
+              <router-link to="profile">
+                <i class="ti-settings icon"></i>Settings
+              </router-link>
+            </li>
+            <li>
+              <a href="">
+                <i class="ti-power-off icon"></i>Logout
+              </a>
+            </li>
+          </drop-down>
         </ul>
       </div>
     </div>
   </nav>
 </template>
 <script>
-  export default {
-    computed: {
-      routeName () {
-        const {name} = this.$route
-        return this.capitalizeFirstLetter(name)
-      }
+export default {
+  computed: {
+    routeName () {
+      const {name} = this.$route
+      return this.capitalizeFirstLetter(name)
+    }
+  },
+  data () {
+    return {
+      username: 'John Doe'
+    }
+  },
+  methods: {
+    capitalizeFirstLetter (string) {
+      return string.charAt(0).toUpperCase() + string.slice(1)
     },
-    data () {
-      return {
-        activeNotifications: false
-      }
+    toggleSidebar () {
+      this.$sidebar.displaySidebar(!this.$sidebar.showSidebar)
     },
-    methods: {
-      capitalizeFirstLetter (string) {
-        return string.charAt(0).toUpperCase() + string.slice(1)
-      },
-      toggleNotificationDropDown () {
-        this.activeNotifications = !this.activeNotifications
-      },
-      closeDropDown () {
-        this.activeNotifications = false
-      },
-      toggleSidebar () {
-        this.$sidebar.displaySidebar(!this.$sidebar.showSidebar)
-      },
-      hideSidebar () {
-        this.$sidebar.displaySidebar(false)
-      }
+    hideSidebar () {
+      this.$sidebar.displaySidebar(false)
     }
   }
-
+}
 </script>
 <style>
-
 </style>

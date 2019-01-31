@@ -35,4 +35,8 @@
   export default {}
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.icon {
+  margin-right: .8rem;
+}
+</style>

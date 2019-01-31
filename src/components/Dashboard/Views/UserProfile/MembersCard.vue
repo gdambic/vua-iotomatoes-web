@@ -6,7 +6,7 @@
     <div class="content">
       <ul class="list-unstyled team-members">
         <li>
-          <div class="row" v-for="member in members">
+          <div class="row" v-for="(member, index) in members" :key="index">
             <div class="col-xs-3">
               <div class="avatar">
                 <img :src="member.image" alt="Circle Image" class="img-circle img-no-padding img-responsive">
