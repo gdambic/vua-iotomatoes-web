@@ -1,4 +1,5 @@
 import DashboardLayout from '../components/Dashboard/Layout/DashboardLayout.vue'
+
 // GeneralViews
 import LoginPage from '../components/GeneralViews/LoginPage.vue'
 import NotFound from '../components/GeneralViews/NotFoundPage.vue'
@@ -58,7 +59,10 @@ const routes = [
         name: 'table-list',
         component: TableList
       }
-    ]
+    ],
+    meta: {
+      requiresAuth: true
+    }
   },
   { path: '/login', component: LoginPage, name: 'login' },
   { path: '*', component: NotFound }

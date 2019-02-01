@@ -1,5 +1,6 @@
 import axios from "axios";
 import app from "../main";
+import { HttpStatusCode } from "./constants";
 
 const instance = axios.create({
   baseURL: process.env.BASE_URL,
@@ -9,7 +10,6 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use(config => {
-  console.log(app.$Progress)
   app.$Progress.start();
   return config;
 });
@@ -19,7 +19,13 @@ instance.interceptors.response.use(response => {
   return response;
 }, error => {
   app.$Progress.fail();
-  return Promise.reject(error);
+
+  if (error.status === HttpStatusCode.UNAUTHORIZED &&
+    error.config && !error.config.__isRetryRequest) {
+    app.$store.dispatch('logout');
+  }
+
+  throw error;
 });
 
 export default {

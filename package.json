@@ -14,10 +14,12 @@
     "axios": "^0.18.0",
     "bootstrap": "^3.3.7",
     "chartist": "^0.10.1",
+    "js-cookie": "^2.2.0",
     "v-click-outside": "0.0.8",
     "vue": "^2.3.0",
     "vue-progressbar": "^0.7.5",
-    "vue-router": "^2.2.0"
+    "vue-router": "^2.2.0",
+    "vuex-persistedstate": "^2.5.4"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",

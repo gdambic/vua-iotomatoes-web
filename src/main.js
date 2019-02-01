@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
 import vClickOutside from 'v-click-outside'
 
 // Plugins
@@ -9,8 +8,9 @@ import SideBar from './components/UIComponents/SidebarPlugin'
 import VueProgressBar from 'vue-progressbar'
 import App from './App'
 
-// router setup
-import routes from './routes/routes'
+// store and router
+import router from './router';
+import store from './store';
 
 // library imports
 import Chartist from 'chartist'
@@ -33,18 +33,11 @@ const options = {
 }
 
 // plugin setup
-Vue.use(VueRouter)
 Vue.use(VueProgressBar, options)
 Vue.use(GlobalComponents)
 Vue.use(vClickOutside)
 Vue.use(Notifications)
 Vue.use(SideBar)
-
-// configure router
-const router = new VueRouter({
-  routes, // short for routes: routes
-  linkActiveClass: 'active'
-})
 
 // global library setup
 Object.defineProperty(Vue.prototype, '$Chartist', {
@@ -58,6 +51,7 @@ export default new Vue({
   el: '#app',
   render: h => h(App),
   router,
+  store,
   data: {
     Chartist: Chartist
   }

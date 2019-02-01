@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <side-bar type="sidebar" :sidebar-links="$sidebar.sidebarLinks">
+    <side-bar type="sidebar" :sidebar-links="sidebarLinks">
 
     </side-bar>
     <notifications>
@@ -29,6 +29,14 @@
       TopNavbar,
       ContentFooter,
       DashboardContent
+    },
+    computed: {
+      sidebarLinks(){
+        const sidebarLinks = this.$sidebar.sidebarLinks;
+        return this.$store.getters.isAdmin ? sidebarLinks : sidebarLinks.filter(x => {
+          if(x.onlyAdmin === false) return x;
+        });
+      }
     },
     methods: {
       toggleSidebar () {

@@ -16,7 +16,7 @@
         <a class="navbar-brand">{{routeName}}</a>
       </div>
       <div class="navbar-right-menu">
-        <ul class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav navbar-right" v-if="isAuthenticated">
           <drop-down :title="username" icon="ti-user icon">
             <li>
               <router-link to="profile">
@@ -24,7 +24,7 @@
               </router-link>
             </li>
             <li>
-              <a href="">
+              <a @click="onLogoutClick">
                 <i class="ti-power-off icon"></i>Logout
               </a>
             </li>
@@ -35,8 +35,13 @@
   </nav>
 </template>
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   computed: {
+    isAuthenticated(){
+      return this.$store.getters.isAuthenticated
+    },
     routeName () {
       const {name} = this.$route
       return this.capitalizeFirstLetter(name)
@@ -44,10 +49,14 @@ export default {
   },
   data () {
     return {
-      username: 'John Doe'
+      username: null
     }
   },
   methods: {
+    async onLogoutClick(){
+      await this.$store.dispatch('logout');
+      this.$router.replace({ name: 'login' });
+    },
     capitalizeFirstLetter (string) {
       return string.charAt(0).toUpperCase() + string.slice(1)
     },
@@ -57,6 +66,9 @@ export default {
     hideSidebar () {
       this.$sidebar.displaySidebar(false)
     }
+  },
+  beforeMount(){
+    this.username = this.$store.getters.username;
   }
 }
 </script>

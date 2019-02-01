@@ -79,10 +79,8 @@ export default {
         return false;
       }
 
-      const response = await Api.login(this.user);
-      console.log(response);
-      
-      this.$router.replace({ name: 'overview', params: { user: response.data } })
+      await this.$store.dispatch('login', this.user);
+      this.$router.replace({ name: 'overview' })
     }
   }
 };
