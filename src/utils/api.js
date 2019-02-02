@@ -30,6 +30,8 @@ instance.interceptors.response.use(response => {
 
 export default {
   // User API
-  login: user => instance.post("/users/login", user)
+  login: user => instance.post("/users/login", user),
+  update: user => instance.put("/users", user),
+  create: user => instance.post("/users", user)
 }
 

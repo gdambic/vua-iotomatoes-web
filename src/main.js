@@ -41,7 +41,7 @@ Vue.use(SideBar)
 
 // global library setup
 Object.defineProperty(Vue.prototype, '$Chartist', {
-  get () {
+  get() {
     return this.$root.Chartist
   }
 })
@@ -54,5 +54,5 @@ export default new Vue({
   store,
   data: {
     Chartist: Chartist
-  }
+  },
 })
