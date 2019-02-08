@@ -1,15 +1,15 @@
 <template>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-lg-4 col-lg-offset-4">
+      <div class="container-login" style="width:400px;">
         <div class="card card-login">
           <div class="header">
             <div class="row">
-              <div class="col-lg-6 col-lg-offset-3">
+              <div class="col-lg-12 text-center">
                 <img
                   src="../../../static/img/app-logo.png"
                   alt="app_logo"
-                  class="img-responsive login-logo"
+                  class="logo-login"
                 >
               </div>
             </div>
@@ -92,9 +92,18 @@ export default {
   height: 100vh;
 }
 
+.container-login {
+  position: relative;
+  left: calc(50% - 200px);
+}
+
+.logo-login {
+  width: 35%;
+}
+
 .card-login {
   margin-top: 10rem;
-  padding: 5rem;
+  padding: 1rem;
 }
 
 .title-login {
