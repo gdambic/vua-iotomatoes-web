@@ -4,6 +4,7 @@ import app from "../main";
 import { HttpStatusCode } from "./constants";
 
 const instance = axios.create({
+  // Proxy table webpackDevServer property inside config folder index.js proxies our request to .NET Core server
   baseURL: "http://localhost:8080/api",
   headers: {
     "Content-Type": "application/json"
