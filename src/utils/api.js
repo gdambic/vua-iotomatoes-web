@@ -35,7 +35,7 @@ instance.interceptors.response.use(
   }
 );
 
-const api = {
+export const Api = {
   // User API
   loginUser: user => instance.post("/users/login", user),
   updateUser: user => instance.put("/users", user),
@@ -43,14 +43,17 @@ const api = {
   getFarmsForUser: id => instance.get(`/users/${id}/farms`),
 
   // Farm API
-  createFarm: farm => instance.post("/farms", farm)
+  createFarm: farm => instance.post("/farms", farm),
+
+  // SensorMeasurment API
+  getFarmMeasurements: params => instance.get('/sensorMeasurements', { params })
 };
 
 export default {
   install(Vue) {
     Object.defineProperty(Vue.prototype, "$api", {
       get() {
-        return api;
+        return Api;
       }
     });
   }

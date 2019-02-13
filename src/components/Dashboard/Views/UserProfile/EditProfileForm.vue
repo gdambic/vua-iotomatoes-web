@@ -4,7 +4,7 @@
       <h4 class="title">Edit Profile</h4>
     </div>
     <div class="content">
-      <form @submit.prevent="onUpdateProfileSubmit" @keypress.enter="onUpdateProfileSubmit">
+      <form @submit.prevent="onUpdateProfileSubmit">
         <div class="row">
           <div class="col-md-4">
             <fg-input

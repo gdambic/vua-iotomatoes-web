@@ -40,4 +40,16 @@
 .icon {
   margin-right: .8rem;
 }
+
+.mb-1 {
+  margin-bottom: 1.2rem;
+}
+
+.mr-1 {
+  margin-right: 1.2rem;
+}
+
+.d-block {
+  display: block;
+}
 </style>

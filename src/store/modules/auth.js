@@ -1,4 +1,4 @@
-import Api from '../../utils/api';
+import { Api } from '../../utils/api';
 import { UserRole } from '../../utils/constants';
 
 const state = {
@@ -8,11 +8,9 @@ const state = {
 
 const getters = {
   isAuthenticated: state => !!state.user,
-  isAdmin: state => {
-    if(!state.user) return false;
-    return state.user.roleCode === UserRole.ADMINISTRATOR
-  },
+  isAdmin: state => !state.user ? false : state.user.roleCode === UserRole.ADMINISTRATOR,
   username: state => state.user ? state.user.username : null,
+  userId: state => state.user ? state.user.id : null
 };
 
 const mutations = {
