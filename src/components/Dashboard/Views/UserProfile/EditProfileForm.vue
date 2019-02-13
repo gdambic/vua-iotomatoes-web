@@ -59,8 +59,6 @@
   </div>
 </template>
 <script>
-import Api from "../../../../utils/api";
-
 export default {
   data() {
     return {
@@ -77,7 +75,7 @@ export default {
   methods: {
     async onUpdateProfileSubmit() {
       try {
-        const { data } = await Api.updateUser(this.user);
+        const { data } = await this.$api.updateUser(this.user);
         this.$store.commit('updateUser', data);
         this.user = this.$store.state.auth.user;
         this.$alert.success("Successfully updated data");

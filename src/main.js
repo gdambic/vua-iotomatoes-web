@@ -7,13 +7,14 @@ import SideBar from './components/UIComponents/SidebarPlugin'
 import VueProgressBar from 'vue-progressbar'
 import Notifications from "vue-notification";
 import Alert from "./utils/alert";
+import Api from "./utils/api";
 import App from './App'
 
-// store and router
+// Store and router
 import router from './router';
 import store from './store';
 
-// library imports
+// Library imports
 import Chartist from 'chartist'
 import 'bootstrap/dist/css/bootstrap.css'
 import './assets/sass/paper-dashboard.scss'
@@ -33,13 +34,14 @@ const options = {
   inverse: false
 }
 
-// plugin setup
+// Plugin setup
 Vue.use(VueProgressBar, options)
 Vue.use(Notifications);
 Vue.use(GlobalComponents)
 Vue.use(vClickOutside)
 Vue.use(SideBar)
 Vue.use(Alert);
+Vue.use(Api);
 
 // global library setup
 Object.defineProperty(Vue.prototype, '$Chartist', {
