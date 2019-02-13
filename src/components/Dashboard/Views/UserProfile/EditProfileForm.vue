@@ -4,7 +4,7 @@
       <h4 class="title">Edit Profile</h4>
     </div>
     <div class="content">
-      <form>
+      <form @submit.prevent="onUpdateProfileSubmit" @keypress.enter="onUpdateProfileSubmit">
         <div class="row">
           <div class="col-md-4">
             <fg-input
@@ -51,7 +51,6 @@
           <button
             type="submit"
             class="btn btn-info btn-fill btn-wd"
-            @click.prevent="updateProfile"
           >Update Profile</button>
         </div>
         <div class="clearfix"></div>
@@ -66,6 +65,7 @@ export default {
   data() {
     return {
       user: {
+        id: null,
         username: null,
         email: null,
         password: null,
@@ -75,18 +75,11 @@ export default {
     };
   },
   methods: {
-    async updateProfile() {
+    async onUpdateProfileSubmit() {
       try {
-        const response = await Api.update(this.user);
-        this.notifyVue("success", "Updated user succesfully");
+        await Api.updateUser(this.user);
       } catch (error) {
-        this.$notify({
-          message: error.message,
-          icon: "ti-cancel",
-          horizontalAlign: "right",
-          verticalAlign: "top",
-          type: "error"
-        });
+        console.error(error);
       }
     }
   },

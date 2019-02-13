@@ -35,12 +35,12 @@ const actions = {
   },
   async login({ commit, dispatch, state }, user) {
     try {
-      const response = await Api.login(user);
+      const response = await Api.loginUser(user);
       commit('authSuccess', response.data);
       dispatch('setLogoutTimer', state.expiresAt);
     } catch(error) {
       commit('authError');
-      Promise.reject(error);
+      return Promise.reject(error);
     }
   },
   logout({ commit }) {

@@ -5,7 +5,7 @@ import { HttpStatusCode } from './constants'
 const instance = axios.create({
   baseURL: process.env.PROD_URL,
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
   }
 })
 
@@ -30,7 +30,11 @@ instance.interceptors.response.use(response => {
 
 export default {
   // User API
-  login: user => instance.post('/users/login', user),
-  update: user => instance.put('/users', user),
-  create: user => instance.post('/users', user)
+  loginUser: user => instance.post('/users/login', user),
+  updateUser: user => instance.put('/users', user),
+  createUser: user => instance.post('/users', user),
+  getFarmsForUser: id => instance.get(`/users/${id}/farms`),
+
+  // Farm API
+  createFarm: farm => instance.post('/farms', farm),
 }

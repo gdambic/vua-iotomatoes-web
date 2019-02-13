@@ -44,6 +44,14 @@
                 </div>
               </div>
               <div class="row">
+                <div class="col-lg-12" v-show="showLoginError">
+                  <div class="alert alert-danger">
+                    <button type="button" aria-hidden="true" class="close" @click="showLoginError = false">×</button>
+                    <span>Wrong username or password. Please try again.</span>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
                 <div class="col-lg-12 text-right">
                   <button class="btn btn-primary" type="submit">
                     <i class="ti-shift-right icon"></i>Login
@@ -59,15 +67,14 @@
 </template>
 
 <script>
-import Api from '../../utils/api';
-
 export default {
   data() {
     return {
       user: {
         username: null,
         password: null
-      }
+      },
+      showLoginError: false
     };
   },
   methods: {
@@ -75,11 +82,17 @@ export default {
       const { username, password } = this.user;
 
       if((username == null || username === '') || (password == null || password == '')){
-        alert("Enter username or password")
+        alert("Enter username and password to submit form.")
         return false;
       }
 
-      await this.$store.dispatch('login', this.user);
+      try {
+        await this.$store.dispatch('login', this.user);
+        this.showLoginError = false;
+      } catch(e) {
+        this.showLoginError = true;
+      }
+
       this.$router.replace({ name: 'overview' })
     }
   }
