@@ -19,6 +19,9 @@ const mutations = {
   authSuccess(state, user){
     state.user = user;
   },
+  updateUser(state, user){
+    state.user = user;
+  },
   authError(state){
     state.user = null;
   },

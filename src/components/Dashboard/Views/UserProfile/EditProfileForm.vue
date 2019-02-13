@@ -77,9 +77,12 @@ export default {
   methods: {
     async onUpdateProfileSubmit() {
       try {
-        await Api.updateUser(this.user);
+        const { data } = await Api.updateUser(this.user);
+        this.$store.commit('updateUser', data);
+        this.user = this.$store.state.auth.user;
+        this.$alert.success("Successfully updated data");
       } catch (error) {
-        console.error(error);
+        this.$alert.error("Failed to update data", error);
       }
     }
   },

@@ -3,9 +3,10 @@ import vClickOutside from 'v-click-outside'
 
 // Plugins
 import GlobalComponents from './gloablComponents'
-import Notifications from './components/UIComponents/NotificationPlugin'
 import SideBar from './components/UIComponents/SidebarPlugin'
 import VueProgressBar from 'vue-progressbar'
+import Notifications from "vue-notification";
+import Alert from "./utils/alert";
 import App from './App'
 
 // store and router
@@ -19,8 +20,8 @@ import './assets/sass/paper-dashboard.scss'
 import 'es6-promise/auto'
 
 const options = {
-  color: '#bffaf3',
-  failedColor: '#874b4b',
+  color: '#28a745',
+  failedColor: '#dc3545',
   thickness: '5px',
   transition: {
     speed: '0.2s',
@@ -34,10 +35,11 @@ const options = {
 
 // plugin setup
 Vue.use(VueProgressBar, options)
+Vue.use(Notifications);
 Vue.use(GlobalComponents)
 Vue.use(vClickOutside)
-Vue.use(Notifications)
 Vue.use(SideBar)
+Vue.use(Alert);
 
 // global library setup
 Object.defineProperty(Vue.prototype, '$Chartist', {

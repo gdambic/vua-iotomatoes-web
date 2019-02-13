@@ -1,6 +1,7 @@
 <template>
   <div class="content">
     <div class="container-fluid">
+        <notifications group="main" position="center right" />
         <transition name="fade" mode="out-in">
           <!-- your content here -->
           <router-view></router-view>
