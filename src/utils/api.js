@@ -4,7 +4,7 @@ import app from "../main";
 import { HttpStatusCode } from "./constants";
 
 const instance = axios.create({
-  baseURL: process.env.BASE_URL,
+  baseURL: "http://localhost:8080/api",
   headers: {
     "Content-Type": "application/json"
   }

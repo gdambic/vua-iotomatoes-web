@@ -3,29 +3,20 @@
     <router-view></router-view>
     <vue-progress-bar></vue-progress-bar>
     <!--This sidebar appears only for screens smaller than 992px-->
-    <side-bar type="navbar" :sidebar-links="$sidebar.sidebarLinks">
+    <side-bar type="navbar" :sidebar-links="sidebarLinks">
       <ul class="nav navbar-nav">
-        <li>
-          <a class="dropdown-toggle" data-toggle="dropdown">
-            <i class="ti-panel"></i>
-            <p>Stats</p>
-          </a>
-        </li>
-        <drop-down title="5 Notifications" icon="ti-bell">
-
-          <li><a>Notification 1</a></li>
-          <li><a>Notification 2</a></li>
-          <li><a>Notification 3</a></li>
-          <li><a>Notification 4</a></li>
-          <li><a>Another notification</a></li>
-
+        <drop-down :title="$store.getters.username" icon="ti-user">
+          <li>
+            <router-link to="profile" tag="a">
+              <i class="ti-settings"></i>Settings
+            </router-link>
+          </li>
+          <li>
+            <a @click="onLogoutClick">
+              <i class="ti-power-off"></i>Logout
+            </a>
+          </li>
         </drop-down>
-        <li>
-          <a>
-            <i class="ti-settings"></i>
-            <p>Settings</p>
-          </a>
-        </li>
         <li class="divider"></li>
       </ul>
     </side-bar>
@@ -33,12 +24,30 @@
 </template>
 
 <script>
-  export default {}
+  export default {
+    computed: {
+      isAuthenticated(){
+        return this.$store.getters.isAuthenticated
+      },
+      sidebarLinks(){
+        const sidebarLinks = this.$sidebar.sidebarLinks;
+        return this.$store.getters.isAdmin ? sidebarLinks : sidebarLinks.filter(x => {
+          if(x.onlyAdmin === false) return x;
+        });
+      }
+    },
+    methods: {
+      async onLogoutClick(){
+        await this.$store.dispatch('logout');
+        this.$router.replace({ name: 'login' });
+      },
+    }
+  }
 </script>
 
 <style lang="scss">
 .icon {
-  margin-right: .8rem;
+  margin-right: 0.8rem;
 }
 
 .mb-1 {
