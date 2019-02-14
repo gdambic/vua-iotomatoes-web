@@ -312,17 +312,18 @@ export default {
           footerIcon: "ti-timer"
         } */
       ];
-    }
+    },
   },
   async beforeMount() {
     const userId = this.$store.getters.userId;
     const response = await this.$api.getFarmsForUser(userId);
-    this.farms = response.data;
-    
+    this.farms = response.data;    
     this.resetSearchParams();
     await this.onFarmMeasurementsSubmit();
 
-    this.refreshUserStatsCards();
+    setInterval(async () => {
+      await this.onFarmMeasurementsSubmit();
+    }, (1000 * 60) * 5); // every 5 minutes
   }
 };
 </script>
