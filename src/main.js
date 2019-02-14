@@ -2,7 +2,8 @@ import Vue from 'vue'
 import vClickOutside from 'v-click-outside'
 
 // Plugins
-import GlobalComponents from './gloablComponents'
+import GlobalComponents from './globalComponents'
+import GlobalFilters from './globalFilters'
 import SideBar from './components/UIComponents/SidebarPlugin'
 import VueProgressBar from 'vue-progressbar'
 import Notifications from "vue-notification";
@@ -38,6 +39,7 @@ const options = {
 Vue.use(VueProgressBar, options)
 Vue.use(Notifications);
 Vue.use(GlobalComponents)
+Vue.use(GlobalFilters)
 Vue.use(vClickOutside)
 Vue.use(SideBar)
 Vue.use(Alert);

@@ -50,6 +50,10 @@
   margin-right: 0.8rem;
 }
 
+.mt-1 {
+  margin-bottom: 1.2rem;
+}
+
 .mb-1 {
   margin-bottom: 1.2rem;
 }

@@ -10,6 +10,12 @@ const SidebarStore = {
       onlyAdmin: false
     },
     {
+      name: 'Farms',
+      icon: 'ti-home',
+      path: '/admin/farms',
+      onlyAdmin: false
+    },
+    {
       name: 'Table List',
       icon: 'ti-view-list-alt',
       path: '/admin/table-list',
@@ -61,6 +67,7 @@ const SidebarPlugin = {
         return this.$root.sidebarStore
       }
     })
+    
     Vue.component('side-bar', Sidebar)
   }
 }
