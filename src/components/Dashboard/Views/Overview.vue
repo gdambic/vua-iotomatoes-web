@@ -51,7 +51,7 @@
           <h4 class="title" slot="title">Humidity</h4>
           <span slot="subTitle">Sensor measurements</span>
           <span slot="footer">
-            <i class="ti-reload"></i>Updated 3 minutes ago
+            <i class="ti-reload"></i> {{ refreshTimespan }}
           </span>
           <div slot="legend">
             <i class="fa fa-circle text-info"></i> Humidity
@@ -63,7 +63,7 @@
           <h4 class="title" slot="title">Temperature</h4>
           <span slot="subTitle">Sensor measurements</span>
           <span slot="footer">
-            <i class="ti-reload"></i>Updated 3 minutes ago
+            <i class="ti-reload"></i> {{ refreshTimespan }}
           </span>
           <div slot="legend">
             <i class="fa fa-circle text-info"></i> Temperature
@@ -77,7 +77,7 @@
           <h4 class="title" slot="title">Air Humidity</h4>
           <span slot="subTitle">Sensor measurements</span>
           <span slot="footer">
-            <i class="ti-reload"></i>Updated 3 minutes ago
+            <i class="ti-reload"></i> {{ refreshTimespan }}
           </span>
           <div slot="legend">
             <i class="fa fa-circle text-info"></i> Air Humidity
@@ -89,7 +89,7 @@
           <h4 class="title" slot="title">Soil Humidity</h4>
           <span slot="subTitle">Sensor measurements</span>
           <span slot="footer">
-            <i class="ti-reload"></i>Updated 3 minutes ago
+            <i class="ti-reload"></i> {{ refreshTimespan }}
           </span>
           <div slot="legend">
             <i class="fa fa-circle text-info"></i> Soil Humidity
@@ -103,6 +103,7 @@
 import { SensorType } from "utils/constants";
 import StatsCard from "components/UIComponents/Cards/StatsCard.vue";
 import ChartCard from "components/UIComponents/Cards/ChartCard.vue";
+import { setInterval } from "timers";
 
 export default {
   components: {
@@ -111,6 +112,7 @@ export default {
   },
   data() {
     return {
+      minutesFromLastRefresh: 0,
       farms: [],
       farmMeasurements: null,
       searchParams: {
@@ -118,7 +120,6 @@ export default {
         dateFrom: null,
         dateTo: null
       },
-      userStatsCards: [],
       adminStatsCards: [
         {
           type: "warning",
@@ -165,9 +166,7 @@ export default {
             "3:00AM",
             "6:00AM"
           ],
-          series: [
-            [287, 385, 490, 562, 594, 626, 698, 895, 952],
-          ]
+          series: [[287, 385, 490, 562, 594, 626, 698, 895, 952]]
         },
         options: {
           low: 0,
@@ -196,9 +195,7 @@ export default {
             "3:00AM",
             "6:00AM"
           ],
-          series: [
-            [67, 152, 193, 240, 387, 435, 535, 642, 744],
-          ]
+          series: [[67, 152, 193, 240, 387, 435, 535, 642, 744]]
         },
         options: {
           low: 0,
@@ -218,7 +215,7 @@ export default {
     };
   },
   computed: {
-    isAdmin(){
+    isAdmin() {
       return this.$store.getters.isAdmin;
     },
     statsCards() {
@@ -226,34 +223,87 @@ export default {
         ? this.adminStatsCards
         : this.userStatsCards;
     },
+    userStatsCards() {
+      return [
+        {
+          type: "warning",
+          icon: "ti-shine",
+          title: "Temperature",
+          value: this.averageTemperature,
+          footerText: this.refreshTimespan,
+          footerIcon: "ti-reload"
+        },
+        {
+          type: "info",
+          icon: "ti-light-bulb",
+          title: "Light",
+          value: this.averageLight,
+          footerText: this.refreshTimespan,
+          footerIcon: "ti-reload"
+        },
+        {
+          type: "info",
+          icon: "ti-cloud",
+          title: "Air humidity",
+          value: this.averageAirHumidity,
+          footerText: this.refreshTimespan,
+          footerIcon: "ti-reload"
+        },
+        {
+          type: "info",
+          icon: "ti-world",
+          title: "Soil humidity",
+          value: this.averageSoilHumidity,
+          footerText: this.refreshTimespan,
+          footerIcon: "ti-reload"
+        },
+        /* {
+          type: "success",
+          icon: "ti-server",
+          title: "Status",
+          value: "Online",
+          footerText: this.refreshTimespan,
+          footerIcon: "ti-reload"
+        } */
+      ];
+    },
     farmList() {
       return this.farms.map(x => ({ text: x.name, value: x.id }));
     },
-    averageLight(){
+    averageLight() {
       const light = this.calculateAverageMeasurement(SensorType.LIGHT);
-      return light ? `${light}%` : "No data"
+      return light ? `${light}%` : "No data";
     },
-    averageTemperature(){
+    averageTemperature() {
       const temp = this.calculateAverageMeasurement(SensorType.TEMPERATURE);
-      return temp ? `${temp} &deg;C` : "No data"
+      return temp ? `${temp} &deg;C` : "No data";
     },
-    averageSoilHumidity(){
-      const soilHum = this.calculateAverageMeasurement(SensorType.SOIL_HUMIDITY);
-      return soilHum ? `${soilHum}%` : "No data"
+    averageSoilHumidity() {
+      const soilHum = this.calculateAverageMeasurement(
+        SensorType.SOIL_HUMIDITY
+      );
+      return soilHum ? `${soilHum}%` : "No data";
     },
-    averageAirHumidity(){
+    averageAirHumidity() {
       const airHum = this.calculateAverageMeasurement(SensorType.AIR_HUMIDITY);
-      return airHum ? `${airHum}%` : "No data"
+      return airHum ? `${airHum}%` : "No data";
+    },
+    refreshTimespan() {
+      return this.minutesFromLastRefresh > 0
+        ? `Updated ${this.minutesFromLastRefresh} ${
+            this.minutesFromLastRefresh > 1 ? "minutes" : "minute"
+          } ago`
+        : `Updated now`;
     }
   },
   methods: {
-    calculateAverageMeasurement(sensorType){
-      if(this.farmMeasurements == null) return null;
+    calculateAverageMeasurement(sensorType) {
+      if (this.farmMeasurements == null) return null;
 
       const measurements = this.farmMeasurements[sensorType];
       const total = measurements
         .map(x => x.value)
-        .reduce((acc, curr) => acc += curr, 0)
+        .reduce((acc, curr) => (acc += curr), 0);
 
       const average = Number(total / measurements.length);
       return isNaN(average) ? null : average.toFixed(1);
@@ -266,64 +316,24 @@ export default {
     async onFarmMeasurementsSubmit() {
       const response = await this.$api.getFarmMeasurements(this.searchParams);
       this.farmMeasurements = response.data;
-      this.refreshUserStatsCards();
-      console.log(response);
-    },
-    refreshUserStatsCards(){
-      this.userStatsCards = [
-        {
-          type: "warning",
-          icon: "ti-shine",
-          title: "Temperature",
-          value: this.averageTemperature,
-          footerText: "Updated now",
-          footerIcon: "ti-reload"
-        },
-        {
-          type: "info",
-          icon: "ti-light-bulb",
-          title: "Light",
-          value: this.averageLight,
-          footerText: "Updated now",
-          footerIcon: "ti-reload"
-        },
-        {
-          type: "info",
-          icon: "ti-cloud",
-          title: "Air humidity",
-          value: this.averageAirHumidity,
-          footerText: "Updated now",
-          footerIcon: "ti-reload"
-        },
-        {
-          type: "info",
-          icon: "ti-world",
-          title: "Soil humidity",
-          value: this.averageSoilHumidity,
-          footerText: "Updated now",
-          footerIcon: "ti-reload"
-        }
-        /* {
-          type: "success",
-          icon: "ti-server",
-          title: "Status",
-          value: "Online",
-          footerText: "In the last hour",
-          footerIcon: "ti-timer"
-        } */
-      ];
-    },
+    }
+  },
+  created(){
+    setInterval(async () => {
+      await this.onFarmMeasurementsSubmit();
+      this.minutesFromLastRefresh = 0;
+    }, (1000 * 60) * 5); // every 5 minutes
+
+    setInterval(() => {
+      this.minutesFromLastRefresh += 1;
+    }, 1000 * 60); // every minute
   },
   async beforeMount() {
     const userId = this.$store.getters.userId;
     const response = await this.$api.getFarmsForUser(userId);
-    this.farms = response.data;    
+    this.farms = response.data;
     this.resetSearchParams();
-    await this.onFarmMeasurementsSubmit();
-
-    setInterval(async () => {
-      await this.onFarmMeasurementsSubmit();
-    }, (1000 * 60) * 5); // every 5 minutes
+    await this.onFarmMeasurementsSubmit(); 
   }
 };
 </script>
