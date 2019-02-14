@@ -51,7 +51,9 @@
           <button
             type="submit"
             class="btn btn-info btn-fill btn-wd"
-          >Update Profile</button>
+          >
+            <span class="ti-save icon"></span> Update Profile
+          </button>
         </div>
         <div class="clearfix"></div>
       </form>

@@ -1,7 +1,11 @@
 <template>
   <div class="card">
     <div class="header">
-      <h4 class="title">{{ farm.name }}</h4>
+      <h4 class="title pull-left">{{ farm.name }}</h4>
+      <button class="btn btn-primary pull-right" v-if="edit">
+        <span class="ti-pencil icon"></span>Edit
+      </button>
+      <div class="clearfix"></div>
     </div>
     <div class="content">
       <div class="row">
@@ -58,7 +62,8 @@
 <script>
 export default {
   props: {
-    farm: Object
+    farm: Object,
+    edit: Boolean
   }
 };
 </script>

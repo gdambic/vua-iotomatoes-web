@@ -45,6 +45,7 @@ export const Api = {
 
   // Farm API
   createFarm: farm => instance.post("/farms", farm),
+  getFarms: () => instance.get("/farms"),
 
   // SensorMeasurment API
   getFarmMeasurements: params => instance.get('/sensorMeasurements', { params })

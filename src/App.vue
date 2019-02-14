@@ -65,4 +65,17 @@
 .d-block {
   display: block;
 }
+
+.d-inline {
+  display: inline-block;
+}
+
+tr > td {
+  padding-left: 0px !important; 
+}
+
+.card.card-fixed {
+  height: 500px;
+  overflow-y: scroll;
+}
 </style>
