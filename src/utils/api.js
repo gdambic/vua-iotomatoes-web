@@ -42,10 +42,30 @@ export const Api = {
   updateUser: user => instance.put("/users", user),
   createUser: user => instance.post("/users", user),
   getFarmsForUser: id => instance.get(`/users/${id}/farms`),
+  getUsers: () => instance.get('/users'),
+  getUserList: () => instance.get('/users/list'),
 
   // Farm API
   createFarm: farm => instance.post("/farms", farm),
+  updateFarm: farm => instance.put("/farms", farm),
   getFarms: () => instance.get("/farms"),
+  getFarm: id => instance.get(`/farms/${id}`),
+
+  // Sensor API
+  getSensors: () => instance.get("/sensors"),
+  getSensorList: () => instance.get("/sensors/list"),
+
+  // City API
+  getCities: () => instance.get("/cities"),
+  getCityList: () => instance.get("/cities/list"),
+
+  // Actuator API
+  getActuators: () => instance.get("/actuators"),
+  getActuatorList: () => instance.get("/actuators/list"),
+
+  // Ruleset API
+  getRulesets: () => instance.get("/rulesets"),
+  getRulesetList: () => instance.get("/rulesets/list"),
 
   // SensorMeasurment API
   getFarmMeasurements: params => instance.get('/sensorMeasurements', { params })

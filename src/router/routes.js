@@ -12,7 +12,11 @@ import Icons from 'src/components/Dashboard/Views/Icons.vue'
 import Maps from 'src/components/Dashboard/Views/Maps.vue'
 import Typography from 'src/components/Dashboard/Views/Typography.vue'
 import TableList from 'src/components/Dashboard/Views/TableList.vue'
+
+// Farm pages
 import Farms from 'src/components/Dashboard/Views/Farms.vue';
+import FarmOverview from 'src/components/Dashboard/Views/Farms/FarmOverview.vue';
+import EditFarmForm from 'src/components/Dashboard/Views/Farms/EditFarmForm.vue';
 
 const routes = [
   {
@@ -62,9 +66,26 @@ const routes = [
       },
       {
         path: 'farms',
-        name: 'farms',
-        component: Farms
-      }
+        component: Farms,
+        redirect: '/admin/farms/overview',
+        children: [
+          {
+            path: 'overview',
+            name: 'farms',
+            component: FarmOverview
+          },
+          {
+            path: 'create',
+            name: 'create-farm',
+            component: EditFarmForm
+          },
+          {
+            path: ':id/edit',
+            name: 'edit-farm',
+            component: EditFarmForm
+          }
+        ]
+      },
     ],
     meta: {
       requiresAuth: true

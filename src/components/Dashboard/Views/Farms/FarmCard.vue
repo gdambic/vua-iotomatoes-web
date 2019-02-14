@@ -2,19 +2,20 @@
   <div class="card">
     <div class="header">
       <h4 class="title pull-left">{{ farm.name }}</h4>
-      <button class="btn btn-primary pull-right" v-if="edit">
+      <router-link
+        class="btn btn-primary pull-right"
+        v-if="edit"
+        tag="button"
+        :to="{ name: 'edit-farm', params: { id: farm.id } }"
+      >
         <span class="ti-pencil icon"></span>Edit
-      </button>
+      </router-link>
       <div class="clearfix"></div>
     </div>
     <div class="content">
       <div class="row">
         <div class="col-lg-12">
-          <google-map
-            :longitude="farm.longitude"
-            :latitude="farm.latitude"
-            :title="farm.name"
-          />
+          <google-map :longitude="farm.longitude" :latitude="farm.latitude" :title="farm.name"/>
         </div>
       </div>
       <div class="row mb-1">
@@ -22,7 +23,7 @@
           <label>Address</label>
           <p>{{ farm.address }}</p>
         </div>
-        <div class="col-lg-6 ">
+        <div class="col-lg-6">
           <label>City</label>
           <p>{{ farm.cityName }}</p>
         </div>

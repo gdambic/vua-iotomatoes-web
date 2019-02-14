@@ -19,7 +19,7 @@
         <ul class="nav navbar-nav navbar-right" v-if="isAuthenticated">
           <drop-down :title="username" icon="ti-user icon">
             <li>
-              <router-link to="profile">
+              <router-link to="/admin/profile">
                 <i class="ti-settings icon"></i>Settings
               </router-link>
             </li>
@@ -43,8 +43,14 @@ export default {
       return this.$store.getters.isAuthenticated
     },
     routeName () {
-      const {name} = this.$route
-      return this.capitalizeFirstLetter(name)
+      const { name } = this.$route
+      let routeName = this.capitalizeFirstLetter(name);
+      
+      if(routeName.indexOf("-") > 0){
+        routeName = routeName.split("-").join(" ")
+      }
+
+      return routeName;
     }
   },
   data () {
