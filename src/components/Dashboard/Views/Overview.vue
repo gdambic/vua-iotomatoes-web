@@ -6,11 +6,15 @@
           <fg-select label="Farm" v-model="searchParams.farmId" :options="farmList"/>
         </div>
         <div class="col-lg-3 col-sm-6">
-          <fg-input label="Date from" type="date" v-model="searchParams.dateFrom"/>
+          <fg-date
+            label="Date range"
+            v-model="dateRangeComputed"
+            range
+          />
         </div>
-        <div class="col-lg-3 col-sm-6">
-          <fg-input label="Date to" type="date" v-model="searchParams.dateTo"/>
-        </div>
+        <!-- <div class="col-lg-3 col-sm-6">
+          <fg-date id="dateTo" label="Date to" v-model="searchParams.dateTo"/>
+        </div> -->
         <div class="col-lg-3 col-sm-6">
           <div class="form-group">
             <label class="d-block">&nbsp;</label>
@@ -51,7 +55,8 @@
           <h4 class="title" slot="title">Humidity</h4>
           <span slot="subTitle">Sensor measurements</span>
           <span slot="footer">
-            <i class="ti-reload"></i> {{ refreshTimespan }}
+            <i class="ti-reload"></i>
+            {{ refreshTimespan }}
           </span>
           <div slot="legend">
             <i class="fa fa-circle text-info"></i> Humidity
@@ -63,7 +68,8 @@
           <h4 class="title" slot="title">Temperature</h4>
           <span slot="subTitle">Sensor measurements</span>
           <span slot="footer">
-            <i class="ti-reload"></i> {{ refreshTimespan }}
+            <i class="ti-reload"></i>
+            {{ refreshTimespan }}
           </span>
           <div slot="legend">
             <i class="fa fa-circle text-info"></i> Temperature
@@ -77,7 +83,8 @@
           <h4 class="title" slot="title">Air Humidity</h4>
           <span slot="subTitle">Sensor measurements</span>
           <span slot="footer">
-            <i class="ti-reload"></i> {{ refreshTimespan }}
+            <i class="ti-reload"></i>
+            {{ refreshTimespan }}
           </span>
           <div slot="legend">
             <i class="fa fa-circle text-info"></i> Air Humidity
@@ -89,7 +96,8 @@
           <h4 class="title" slot="title">Soil Humidity</h4>
           <span slot="subTitle">Sensor measurements</span>
           <span slot="footer">
-            <i class="ti-reload"></i> {{ refreshTimespan }}
+            <i class="ti-reload"></i>
+            {{ refreshTimespan }}
           </span>
           <div slot="legend">
             <i class="fa fa-circle text-info"></i> Soil Humidity
@@ -100,9 +108,9 @@
   </div>
 </template>
 <script>
-import { SensorType } from "utils/constants";
 import StatsCard from "components/UIComponents/Cards/StatsCard.vue";
 import ChartCard from "components/UIComponents/Cards/ChartCard.vue";
+import { SensorType } from "utils/constants";
 import { setInterval } from "timers";
 
 export default {
@@ -115,6 +123,7 @@ export default {
       minutesFromLastRefresh: 0,
       farms: [],
       farmMeasurements: null,
+      dateRange: [],
       searchParams: {
         farmId: null,
         dateFrom: null,
@@ -256,7 +265,7 @@ export default {
           value: this.averageSoilHumidity,
           footerText: this.refreshTimespan,
           footerIcon: "ti-reload"
-        },
+        }
         /* {
           type: "success",
           icon: "ti-server",
@@ -266,6 +275,16 @@ export default {
           footerIcon: "ti-reload"
         } */
       ];
+    },
+    dateRangeComputed: {
+      get(){
+        return this.dateRange.join(' to ');
+      },
+      set(value){
+        this.searchParams.dateFrom = value[0],
+        this.searchParams.dateTo = value[1],
+        this.dateRange = value;
+      }
     },
     farmList() {
       return this.farms.map(x => ({ text: x.name, value: x.id }));
@@ -310,6 +329,7 @@ export default {
     },
     resetSearchParams() {
       this.searchParams.farmId = this.farms[0].id;
+      this.dateRange = [];
       this.searchParams.dateFrom = null;
       this.searchParams.dateTo = null;
     },
@@ -318,11 +338,11 @@ export default {
       this.farmMeasurements = response.data;
     }
   },
-  created(){
+  created() {
     setInterval(async () => {
       await this.onFarmMeasurementsSubmit();
       this.minutesFromLastRefresh = 0;
-    }, (1000 * 60) * 5); // every 5 minutes
+    }, 1000 * 60 * 5); // every 5 minutes
 
     setInterval(() => {
       this.minutesFromLastRefresh += 1;
@@ -333,7 +353,7 @@ export default {
     const response = await this.$api.getFarmsForUser(userId);
     this.farms = response.data;
     this.resetSearchParams();
-    await this.onFarmMeasurementsSubmit(); 
+    await this.onFarmMeasurementsSubmit();
   }
 };
 </script>
