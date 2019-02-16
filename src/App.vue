@@ -51,7 +51,7 @@
 }
 
 .mt-1 {
-  margin-bottom: 1.2rem;
+  margin-top: 1.2rem;
 }
 
 .mb-1 {
@@ -60,6 +60,10 @@
 
 .mr-1 {
   margin-right: 1.2rem;
+}
+
+.ml-1 {
+  margin-left: 1.2rem;
 }
 
 .d-block {

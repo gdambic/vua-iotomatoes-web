@@ -6,24 +6,29 @@
           <fg-select label="Farm" v-model="searchParams.farmId" :options="farmList"/>
         </div>
         <div class="col-lg-3 col-sm-6">
-          <fg-date
-            label="Date range"
-            v-model="dateRangeComputed"
-            range
-          />
+          <fg-date v-show="showRange" label="Date range" v-model="dateRangeComputed" range/>
+          <fg-date v-show="!showRange" label="Date" v-model="searchParams.dateFrom"/>
         </div>
-        <!-- <div class="col-lg-3 col-sm-6">
-          <fg-date id="dateTo" label="Date to" v-model="searchParams.dateTo"/>
-        </div> -->
-        <div class="col-lg-3 col-sm-6">
+        <div class="col-lg-6 col-sm-12">
           <div class="form-group">
-            <label class="d-block">&nbsp;</label>
-            <button class="btn btn-primary mr-1" type="submit">
-              <span class="ti-filter icon"></span>Filter
-            </button>
-            <button class="btn btn-secondary" @click="resetSearchParams">
-              <span class="ti-close icon"></span>Clear
-            </button>
+            <div class="row">
+              <div class="col-lg-4 col-sm-6">
+                <fg-checkbox
+                  label="Use range of dates"
+                  v-model="showRange"
+                  @change="onShowRangeChange"
+                />
+              </div>
+              <div class="col-lg-6 col-sm-6">
+                <span class="d-block" style="margin-top: .2rem">&nbsp;</span>
+                <button class="btn btn-primary mr-1" type="submit">
+                  <span class="ti-filter icon"></span>Filter
+                </button>
+                <button class="btn btn-secondary" @click="resetSearchParams">
+                  <span class="ti-close icon"></span>Clear
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </form>
@@ -111,7 +116,8 @@
 import StatsCard from "components/UIComponents/Cards/StatsCard.vue";
 import ChartCard from "components/UIComponents/Cards/ChartCard.vue";
 import { SensorType } from "utils/constants";
-import { setInterval } from "timers";
+import { getFormattedDate } from "utils";
+import { setInterval, clearInterval } from "timers";
 
 export default {
   components: {
@@ -120,9 +126,12 @@ export default {
   },
   data() {
     return {
-      minutesFromLastRefresh: 0,
       farms: [],
       farmMeasurements: null,
+      showRange: false,
+      minutesFromLastRefresh: 0,
+      refreshMeasurementInterval: null,
+      refreshMinutesInterval: null,
       dateRange: [],
       searchParams: {
         farmId: null,
@@ -277,13 +286,13 @@ export default {
       ];
     },
     dateRangeComputed: {
-      get(){
-        return this.dateRange.join(' to ');
+      get() {
+        return this.dateRange.join(" to ");
       },
-      set(value){
-        this.searchParams.dateFrom = value[0],
-        this.searchParams.dateTo = value[1],
-        this.dateRange = value;
+      set(value) {
+        (this.searchParams.dateFrom = value[0]),
+          (this.searchParams.dateTo = value[1]),
+          (this.dateRange = value);
       }
     },
     farmList() {
@@ -333,26 +342,45 @@ export default {
       this.searchParams.dateFrom = null;
       this.searchParams.dateTo = null;
     },
+    onShowRangeChange() {
+      if (this.showRange === false) {
+        this.dateRange = [];
+        this.searchParams.dateFrom = getFormattedDate(new Date());
+      } else {
+        this.searchParams.dateFrom = null;
+      }
+    },
+    async refreshFarmMeasurements() {
+      await this.onFarmMeasurementsSubmit();
+      this.minutesFromLastRefresh = 0;
+    },
+    refreshMinutes() {
+      this.minutesFromLastRefresh += 1;
+    },
     async onFarmMeasurementsSubmit() {
       const response = await this.$api.getFarmMeasurements(this.searchParams);
       this.farmMeasurements = response.data;
     }
   },
   created() {
-    setInterval(async () => {
-      await this.onFarmMeasurementsSubmit();
-      this.minutesFromLastRefresh = 0;
-    }, 1000 * 60 * 5); // every 5 minutes
-
-    setInterval(() => {
-      this.minutesFromLastRefresh += 1;
-    }, 1000 * 60); // every minute
+    this.refreshMeasurementInterval = setInterval(this.refreshFarmMeasurements, 1000 * 60 * 5); // every 5 minutes
+    this.refreshMinutesInterval = setInterval(this.refreshMinutes, 1000 * 60); // every minute
+  },
+  destroyed() {
+    clearInterval(this.refreshMeasurementInterval);
+    clearInterval(this.refreshMinutesInterval);
   },
   async beforeMount() {
     const userId = this.$store.getters.userId;
     const response = await this.$api.getFarmsForUser(userId);
     this.farms = response.data;
     this.resetSearchParams();
+
+    if (this.showRange === false) {
+      this.searchParams.dateFrom = getFormattedDate(new Date());
+      this.searchParams.dateTo = null;
+    }
+
     await this.onFarmMeasurementsSubmit();
   }
 };
