@@ -2,9 +2,9 @@
   <div>
     <div class="row">
       <div class="col-lg-3 col-sm-6">
-        <fg-input label="Filter" type="text" placeholder="Name, City, User" v-model="filterQuery"/>
+        <fg-input label="Filter" type="text" placeholder="Name, City" v-model="filterQuery"/>
       </div>
-      <div class="col-lg-3 col-sm-6">
+      <div class="col-lg-3 col-sm-6" v-if="isAdmin">
         <div class="form-group">
           <label class="d-block">&nbsp;</label>
           <router-link class="btn btn-primary" tag="button" :to="{ name: 'create-farm' }">
@@ -56,7 +56,7 @@ export default {
     filteredFarms() {
       if (this.filterQuery != null && this.filterQuery !== "") {
         const by = (obj, prop) => obj[prop].toLowerCase().indexOf(this.filterQuery.toLowerCase()) >= 0;
-        return this.farms.filter(x => by(x, "name") || by(x, "cityName") || by(x, "user"));
+        return this.farms.filter(x => by(x, "name") || by(x, "cityName"));
       }
 
       return this.farms;
