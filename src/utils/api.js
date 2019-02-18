@@ -42,6 +42,7 @@ export const Api = {
   updateUser: user => instance.put("/users", user),
   createUser: user => instance.post("/users", user),
   getFarmsForUser: id => instance.get(`/users/${id}/farms`),
+  getFarmListForUser: id => instance.get(`/users/${id}/farms/list`),
   getUsers: () => instance.get('/users'),
   getUserList: () => instance.get('/users/list'),
 
@@ -50,6 +51,7 @@ export const Api = {
   updateFarm: farm => instance.put("/farms", farm),
   getFarms: () => instance.get("/farms"),
   getFarm: id => instance.get(`/farms/${id}`),
+  getFarmList: () => instance.get('/farms/list'),
 
   // Sensor API
   getSensors: () => instance.get("/sensors"),
@@ -67,8 +69,9 @@ export const Api = {
   getRulesets: () => instance.get("/rulesets"),
   getRulesetList: () => instance.get("/rulesets/list"),
 
-  // SensorMeasurment API
-  getFarmMeasurements: params => instance.get('/sensorMeasurements', { params })
+  // SensorMeasurement API
+  getFarmMeasurements: params => instance.get('/sensorMeasurements', { params }),
+  getCurrentFarmMeasurements: farmId => instance.get('/sensorMeasurements/current', { params: { farmId }})
 };
 
 export default {

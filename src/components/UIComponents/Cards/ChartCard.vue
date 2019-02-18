@@ -83,6 +83,9 @@
     mounted () {
       this.updateChartId()
       this.$nextTick(this.initChart)
+    },
+    updated () {
+      this.$nextTick(this.initChart)
     }
   }
 

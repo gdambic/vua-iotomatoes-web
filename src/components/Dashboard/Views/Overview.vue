@@ -11,24 +11,17 @@
         </div>
         <div class="col-lg-6 col-sm-12">
           <div class="form-group">
-            <div class="row">
-              <div class="col-lg-4 col-sm-6">
-                <fg-checkbox
-                  label="Use range of dates"
-                  v-model="showRange"
-                  @change="onShowRangeChange"
-                />
-              </div>
-              <div class="col-lg-6 col-sm-6">
-                <span class="d-block" style="margin-top: .2rem">&nbsp;</span>
-                <button class="btn btn-primary mr-1" type="submit">
-                  <span class="ti-filter icon"></span>Filter
-                </button>
-                <button class="btn btn-secondary" @click="resetSearchParams">
-                  <span class="ti-close icon"></span>Clear
-                </button>
-              </div>
-            </div>
+            <span class="d-block" style="margin-top: .5rem">&nbsp;</span>
+            <button class="btn btn-primary mr-1" type="submit">
+              <span class="ti-filter icon"></span>Filter
+            </button>
+            <button class="btn btn-secondary mr-1" @click="resetSearchParams" type="button">
+              <span class="ti-close icon"></span>Clear
+            </button>
+            <button class="btn btn-secondary" @click="onShowRangeChange" type="button">
+              <span :class="`${showRange === true ? 'ti-minus' : 'ti-plus'} icon`"></span>
+              Use range of dates
+            </button>
           </div>
         </div>
       </form>
@@ -55,9 +48,12 @@
 
     <!--Charts-->
     <div class="row" v-if="!isAdmin">
-      <div class="col-lg-6">
-        <chart-card :chart-data="humidityChart.data" :chart-options="humidityChart.options">
-          <h4 class="title" slot="title">Humidity</h4>
+      <div class="col-lg-12">
+        <chart-card
+          :chart-data="airHumidityChartConfig.data"
+          :chart-options="airHumidityChartConfig.options"
+        >
+          <h4 class="title" slot="title">Air humidity</h4>
           <span slot="subTitle">Sensor measurements</span>
           <span slot="footer">
             <i class="ti-reload"></i>
@@ -68,8 +64,13 @@
           </div>
         </chart-card>
       </div>
-      <div class="col-lg-6">
-        <chart-card :chart-data="temperatureChart.data" :chart-options="temperatureChart.options">
+    </div>
+    <div class="row" v-if="!isAdmin">
+      <div class="col-lg-12">
+        <chart-card
+          :chart-data="temperatureChartConfig.data"
+          :chart-options="temperatureChartConfig.options"
+        >
           <h4 class="title" slot="title">Temperature</h4>
           <span slot="subTitle">Sensor measurements</span>
           <span slot="footer">
@@ -83,21 +84,27 @@
       </div>
     </div>
     <div class="row" v-if="!isAdmin">
-      <div class="col-lg-6">
-        <chart-card :chart-data="humidityChart.data" :chart-options="humidityChart.options">
-          <h4 class="title" slot="title">Air Humidity</h4>
+      <div class="col-lg-12">
+        <chart-card
+          :chart-data="soilHumidityChartConfig.data"
+          :chart-options="soilHumidityChartConfig.options"
+        >
+          <h4 class="title" slot="title">Soil humidity</h4>
           <span slot="subTitle">Sensor measurements</span>
           <span slot="footer">
             <i class="ti-reload"></i>
             {{ refreshTimespan }}
           </span>
           <div slot="legend">
-            <i class="fa fa-circle text-info"></i> Air Humidity
+            <i class="fa fa-circle text-info"></i> Humidity
           </div>
         </chart-card>
       </div>
-      <div class="col-lg-6">
-        <chart-card :chart-data="temperatureChart.data" :chart-options="temperatureChart.options">
+    </div>
+    <!--  <div class="row" v-if="!isAdmin">
+      
+      <div class="col-lg-12">
+        <chart-card :chart-data="soilHumiditySecondChartConfig.data" :chart-options="soilHumiditySecondChartConfig.options">
           <h4 class="title" slot="title">Soil Humidity</h4>
           <span slot="subTitle">Sensor measurements</span>
           <span slot="footer">
@@ -109,7 +116,7 @@
           </div>
         </chart-card>
       </div>
-    </div>
+    </div>-->
   </div>
 </template>
 <script>
@@ -118,6 +125,7 @@ import ChartCard from "components/UIComponents/Cards/ChartCard.vue";
 import { SensorType } from "utils/constants";
 import { getFormattedDate } from "utils";
 import { setInterval, clearInterval } from "timers";
+import { debug } from "util";
 
 export default {
   components: {
@@ -126,7 +134,8 @@ export default {
   },
   data() {
     return {
-      farms: [],
+      farmList: [],
+      currentFarmStats: null,
       farmMeasurements: null,
       showRange: false,
       minutesFromLastRefresh: 0,
@@ -172,67 +181,24 @@ export default {
           footerIcon: "ti-timer"
         }
       ],
-      humidityChart: {
-        data: {
-          labels: [
-            "9:00AM",
-            "12:00AM",
-            "3:00PM",
-            "6:00PM",
-            "9:00PM",
-            "12:00PM",
-            "3:00AM",
-            "6:00AM"
-          ],
-          series: [[287, 385, 490, 562, 594, 626, 698, 895, 952]]
-        },
-        options: {
-          low: 0,
-          high: 1000,
-          showArea: true,
-          height: "245px",
-          axisX: {
-            showGrid: false
-          },
-          lineSmooth: this.$Chartist.Interpolation.simple({
-            divisor: 3
-          }),
-          showLine: true,
-          showPoint: false
-        }
-      },
-      temperatureChart: {
-        data: {
-          labels: [
-            "9:00AM",
-            "12:00AM",
-            "3:00PM",
-            "6:00PM",
-            "9:00PM",
-            "12:00PM",
-            "3:00AM",
-            "6:00AM"
-          ],
-          series: [[67, 152, 193, 240, 387, 435, 535, 642, 744]]
-        },
-        options: {
-          low: 0,
-          high: 1000,
-          showArea: true,
-          height: "245px",
-          axisX: {
-            showGrid: false
-          },
-          lineSmooth: this.$Chartist.Interpolation.simple({
-            divisor: 3
-          }),
-          showLine: true,
-          showPoint: false
-        }
-      }
+      humidityChartConfig: {},
+      temperatureChartConfig: {},
+      airHumidityChartConfig: {},
+      soilHumidityChartConfig: {},
+      soilHumiditySecondChartConfig: {}
     };
   },
   computed: {
+    dateRangeComputed: {
+      get() {
+        return this.dateRange.join(" to ");
+      },
+      set(value) {
+        (this.searchParams.dateFrom = value[0]),
+          (this.searchParams.dateTo = value[1]),
+          (this.dateRange = value);
+      }
+    },
     isAdmin() {
       return this.$store.getters.isAdmin;
     },
@@ -247,7 +213,7 @@ export default {
           type: "warning",
           icon: "ti-shine",
           title: "Temperature",
-          value: this.averageTemperature,
+          value: this.currentTemperature,
           footerText: this.refreshTimespan,
           footerIcon: "ti-reload"
         },
@@ -255,7 +221,7 @@ export default {
           type: "info",
           icon: "ti-light-bulb",
           title: "Light",
-          value: this.averageLight,
+          value: this.currentLight,
           footerText: this.refreshTimespan,
           footerIcon: "ti-reload"
         },
@@ -263,7 +229,7 @@ export default {
           type: "info",
           icon: "ti-cloud",
           title: "Air humidity",
-          value: this.averageAirHumidity,
+          value: this.currentAirHumidity,
           footerText: this.refreshTimespan,
           footerIcon: "ti-reload"
         },
@@ -271,7 +237,7 @@ export default {
           type: "info",
           icon: "ti-world",
           title: "Soil humidity",
-          value: this.averageSoilHumidity,
+          value: this.currentSoilHumidity,
           footerText: this.refreshTimespan,
           footerIcon: "ti-reload"
         }
@@ -285,35 +251,20 @@ export default {
         } */
       ];
     },
-    dateRangeComputed: {
-      get() {
-        return this.dateRange.join(" to ");
-      },
-      set(value) {
-        (this.searchParams.dateFrom = value[0]),
-          (this.searchParams.dateTo = value[1]),
-          (this.dateRange = value);
-      }
-    },
-    farmList() {
-      return this.farms.map(x => ({ text: x.name, value: x.id }));
-    },
-    averageLight() {
-      const light = this.calculateAverageMeasurement(SensorType.LIGHT);
+    currentLight() {
+      const light = this.getCurrentMeasurement(SensorType.LIGHT);
       return light ? `${light}%` : "No data";
     },
-    averageTemperature() {
-      const temp = this.calculateAverageMeasurement(SensorType.TEMPERATURE);
+    currentTemperature() {
+      const temp = this.getCurrentMeasurement(SensorType.TEMPERATURE);
       return temp ? `${temp} &deg;C` : "No data";
     },
-    averageSoilHumidity() {
-      const soilHum = this.calculateAverageMeasurement(
-        SensorType.SOIL_HUMIDITY
-      );
+    currentSoilHumidity() {
+      const soilHum = this.getCurrentMeasurement(SensorType.SOIL_HUMIDITY);
       return soilHum ? `${soilHum}%` : "No data";
     },
-    averageAirHumidity() {
-      const airHum = this.calculateAverageMeasurement(SensorType.AIR_HUMIDITY);
+    currentAirHumidity() {
+      const airHum = this.getCurrentMeasurement(SensorType.AIR_HUMIDITY);
       return airHum ? `${airHum}%` : "No data";
     },
     refreshTimespan() {
@@ -325,24 +276,51 @@ export default {
     }
   },
   methods: {
-    calculateAverageMeasurement(sensorType) {
-      if (this.farmMeasurements == null) return null;
+    getCurrentMeasurement(sensorType) {
+      if(!this.currentFarmStats) return null;
+      return this.currentFarmStats[sensorType];
+    },
+    getChartConfiguration(sensorType) {
+      if (this.farmMeasurements === null) return null;
+      const measurement = this.farmMeasurements.find(
+        x => x.sensorTypeId === sensorType
+      );
 
-      const measurements = this.farmMeasurements[sensorType];
-      const total = measurements
-        .map(x => x.value)
-        .reduce((acc, curr) => (acc += curr), 0);
+      return new Promise((resolve, reject) => {
+        const config = {
+          data: {
+            labels: measurement.labels,
+            series: [measurement.data]
+          },
+          options: {
+            low: 0,
+            high: Math.max(...measurement.data),
+            showArea: true,
+            height: "245px",
+            axisX: {
+              showGrid: true
+            },
+            lineSmooth: this.$Chartist.Interpolation.simple({
+              divisor: 3
+            }),
+            showLine: true,
+            showPoint: false,
+          }
+        };
 
-      const average = Number(total / measurements.length);
-      return isNaN(average) ? null : average.toFixed(1);
+        resolve(config);
+      });
     },
     resetSearchParams() {
-      this.searchParams.farmId = this.farms[0].id;
+      this.searchParams.farmId = this.farmList[0].value;
+      this.showRange = false;
       this.dateRange = [];
-      this.searchParams.dateFrom = null;
+      this.searchParams.dateFrom = getFormattedDate(new Date());
       this.searchParams.dateTo = null;
+      this.onFarmMeasurementsSubmit();
     },
     onShowRangeChange() {
+      this.showRange = !this.showRange;
       if (this.showRange === false) {
         this.dateRange = [];
         this.searchParams.dateFrom = getFormattedDate(new Date());
@@ -352,18 +330,39 @@ export default {
     },
     async refreshFarmMeasurements() {
       await this.onFarmMeasurementsSubmit();
+      await this.getCurrentFarmStats();
       this.minutesFromLastRefresh = 0;
     },
     refreshMinutes() {
       this.minutesFromLastRefresh += 1;
     },
+    async getCurrentFarmStats(){
+      const response = await this.$api.getCurrentFarmMeasurements(this.searchParams.farmId);
+      debugger
+      this.currentFarmStats = response.data || {};
+    },
     async onFarmMeasurementsSubmit() {
       const response = await this.$api.getFarmMeasurements(this.searchParams);
       this.farmMeasurements = response.data;
+      this.temperatureChartConfig = await this.getChartConfiguration(
+        SensorType.TEMPERATURE
+      );
+      this.airHumidityChartConfig = await this.getChartConfiguration(
+        SensorType.AIR_HUMIDITY
+      );
+      this.soilHumidityChartConfig = await this.getChartConfiguration(
+        SensorType.SOIL_HUMIDITY
+      );
+      this.soilHumiditySecondChartConfig = await this.getChartConfiguration(
+        SensorType.SOIL_HUMIDITY
+      );
     }
   },
   created() {
-    this.refreshMeasurementInterval = setInterval(this.refreshFarmMeasurements, 1000 * 60 * 5); // every 5 minutes
+    this.refreshMeasurementInterval = setInterval(
+      this.refreshFarmMeasurements,
+      1000 * 60 * 5
+    ); // every 5 minutes
     this.refreshMinutesInterval = setInterval(this.refreshMinutes, 1000 * 60); // every minute
   },
   destroyed() {
@@ -372,16 +371,10 @@ export default {
   },
   async beforeMount() {
     const userId = this.$store.getters.userId;
-    const response = await this.$api.getFarmsForUser(userId);
-    this.farms = response.data;
+    const response = await this.$api.getFarmListForUser(userId);
+    this.farmList = response.data;
     this.resetSearchParams();
-
-    if (this.showRange === false) {
-      this.searchParams.dateFrom = getFormattedDate(new Date());
-      this.searchParams.dateTo = null;
-    }
-
-    await this.onFarmMeasurementsSubmit();
+    this.refreshFarmMeasurements();
   }
 };
 </script>
