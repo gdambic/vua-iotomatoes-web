@@ -16,7 +16,6 @@ import router from './router';
 import store from './store';
 
 // Library imports
-import Chartist from 'chartist'
 import 'bootstrap/dist/css/bootstrap.css'
 import './assets/sass/paper-dashboard.scss'
 import 'es6-promise/auto'
@@ -45,20 +44,10 @@ Vue.use(SideBar)
 Vue.use(Alert);
 Vue.use(Api);
 
-// global library setup
-Object.defineProperty(Vue.prototype, '$Chartist', {
-  get() {
-    return this.$root.Chartist
-  }
-})
-
 /* eslint-disable no-new */
 export default new Vue({
   el: '#app',
   render: h => h(App),
   router,
   store,
-  data: {
-    Chartist: Chartist
-  },
 })

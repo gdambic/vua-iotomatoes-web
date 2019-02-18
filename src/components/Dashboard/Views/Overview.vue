@@ -59,9 +59,6 @@
             <i class="ti-reload"></i>
             {{ refreshTimespan }}
           </span>
-          <div slot="legend">
-            <i class="fa fa-circle text-info"></i> Humidity
-          </div>
         </chart-card>
       </div>
     </div>
@@ -77,9 +74,6 @@
             <i class="ti-reload"></i>
             {{ refreshTimespan }}
           </span>
-          <div slot="legend">
-            <i class="fa fa-circle text-info"></i> Temperature
-          </div>
         </chart-card>
       </div>
     </div>
@@ -95,9 +89,6 @@
             <i class="ti-reload"></i>
             {{ refreshTimespan }}
           </span>
-          <div slot="legend">
-            <i class="fa fa-circle text-info"></i> Humidity
-          </div>
         </chart-card>
       </div>
     </div>
@@ -218,7 +209,7 @@ export default {
           footerIcon: "ti-reload"
         },
         {
-          type: "info",
+          type: "warning",
           icon: "ti-light-bulb",
           title: "Light",
           value: this.currentLight,
@@ -234,7 +225,7 @@ export default {
           footerIcon: "ti-reload"
         },
         {
-          type: "info",
+          type: "success",
           icon: "ti-world",
           title: "Soil humidity",
           value: this.currentSoilHumidity,
@@ -277,8 +268,32 @@ export default {
   },
   methods: {
     getCurrentMeasurement(sensorType) {
-      if(!this.currentFarmStats) return null;
+      if (!this.currentFarmStats) return null;
       return this.currentFarmStats[sensorType];
+    },
+    getChartLabel(sensorType) {
+      switch (sensorType) {
+        case SensorType.TEMPERATURE:
+          return "Temperature";
+        case SensorType.AIR_HUMIDITY:
+          return "Air humidity";
+        case SensorType.SOIL_HUMIDITY:
+          return "Soil humidity";
+        default:
+          return "";
+      }
+    },
+    getChartColor(sensorType, opacity = "0.2") {
+      switch (sensorType) {
+        case SensorType.TEMPERATURE:
+          return `rgba(244, 188, 54, ${opacity})`;
+        case SensorType.AIR_HUMIDITY:
+          return `rgba(100, 179, 202, ${opacity})`;
+        case SensorType.SOIL_HUMIDITY:
+          return `rgba(65, 184, 131, ${opacity})`;
+        default:
+          return "";
+      }
     },
     getChartConfiguration(sensorType) {
       if (this.farmMeasurements === null) return null;
@@ -287,28 +302,20 @@ export default {
       );
 
       return new Promise((resolve, reject) => {
-        const config = {
+        resolve({
           data: {
             labels: measurement.labels,
-            series: [measurement.data]
-          },
-          options: {
-            low: 0,
-            high: Math.max(...measurement.data),
-            showArea: true,
-            height: "245px",
-            axisX: {
-              showGrid: true
-            },
-            lineSmooth: this.$Chartist.Interpolation.simple({
-              divisor: 3
-            }),
-            showLine: true,
-            showPoint: false,
+            datasets: [
+              {
+                label: this.getChartLabel(sensorType),
+                data: measurement.data,
+                backgroundColor: this.getChartColor(sensorType),
+                borderColor: this.getChartColor(sensorType, "1"),
+                borderWidth: 1
+              }
+            ]
           }
-        };
-
-        resolve(config);
+        });
       });
     },
     resetSearchParams() {
@@ -336,9 +343,10 @@ export default {
     refreshMinutes() {
       this.minutesFromLastRefresh += 1;
     },
-    async getCurrentFarmStats(){
-      const response = await this.$api.getCurrentFarmMeasurements(this.searchParams.farmId);
-      debugger
+    async getCurrentFarmStats() {
+      const response = await this.$api.getCurrentFarmMeasurements(
+        this.searchParams.farmId
+      );
       this.currentFarmStats = response.data || {};
     },
     async onFarmMeasurementsSubmit() {
