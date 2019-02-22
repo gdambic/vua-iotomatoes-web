@@ -24,7 +24,7 @@
   </div>
 </template>
 <script>
-import { getRandomInt } from "utils"
+import { getRandomInt } from "utils";
 import Chart from "chart.js";
 
 export default {
@@ -61,7 +61,7 @@ export default {
     },
     height: {
       type: Number,
-      default: 300,
+      default: 300
     }
   },
   data() {
@@ -71,7 +71,7 @@ export default {
     };
   },
   computed: {
-    context(){
+    context() {
       const context = this.$refs[this.chartId];
       context.height = this.height;
       return context;
@@ -89,7 +89,7 @@ export default {
       const currentTime = new Date().getTime().toString();
       const randomInt = getRandomInt(0, currentTime);
       this.chartId = `div_${randomInt}`;
-    },
+    }
   },
   watch: {
     chartData: {
@@ -106,9 +106,9 @@ export default {
   mounted() {
     this.initChart();
   },
-  beforeDestroy () {
-    this.chartInstance.destroy()
-  },
+  beforeDestroy() {
+    this.chartInstance.destroy();
+  }
 };
 </script>
 <style>

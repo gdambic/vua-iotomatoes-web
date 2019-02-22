@@ -1,13 +1,7 @@
 <template>
   <div class="form-group">
     <label v-if="label">{{label}}</label>
-    <select
-      v-model="selected"
-      class="form-control border-input"
-      v-bind="$props"
-      @change="onChange($event.target.value)"
-    >
-      <option :value="''">{{ placeholder }}</option>
+    <select v-model="selected" class="form-control border-input" v-bind="$props" @change="onChange">
       <option v-for="option in options" :value="option.value" :key="option.value">{{option.text}}</option>
     </select>
   </div>
@@ -15,7 +9,7 @@
 <script>
 export default {
   model: {
-    event: 'change'
+    event: "change"
   },
   props: {
     type: {
@@ -25,10 +19,6 @@ export default {
     label: String,
     name: String,
     disabled: Boolean,
-    placeholder: {
-      type: String,
-      default: ''
-    },
     value: [String, Number],
     options: {
       type: Array,
@@ -37,20 +27,15 @@ export default {
   },
   computed: {
     selected: {
-      get(){
+      get() {
         return this.value;
       },
-      set(value){
-      }
+      set(value) {}
     }
   },
   methods: {
-    onChange(value) {
-      if (value === "") {
-        value = null;
-      }
-
-      this.$emit("change", value);
+    onChange(event) {
+      this.$emit("change", event.target.value);
     }
   }
 };

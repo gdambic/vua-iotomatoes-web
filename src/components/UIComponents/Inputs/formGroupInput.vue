@@ -1,12 +1,7 @@
 <template>
   <div class="form-group">
     <label v-if="label">{{label}}</label>
-    <input
-      :ref="inputId"
-      class="form-control border-input"
-      v-bind="$props"
-      :value="value"
-    >
+    <input :ref="inputId" class="form-control border-input" v-bind="$props" :value="value">
   </div>
 </template>
 <script>
@@ -36,23 +31,27 @@ export default {
     };
   },
   computed: {
-    isMaskDefined(){
-      return Object.keys(this.maskOptions).length > 0
+    isMaskDefined() {
+      return Object.keys(this.maskOptions).length > 0;
     },
-    inputElement(){
+    inputElement() {
       return this.$refs[this.inputId];
     }
   },
   methods: {
     onInput(event) {
-      this.$emit("input", event.target ? event.target.value : this.inputElement.value);
+      const inputValue = event.target
+        ? event.target.value
+        : this.inputElement.value;
+        
+      this.$emit("input", inputValue);
       this.$emit("maskInput", this.cleaveInstance.getRawValue());
     },
     updateInputId() {
       const currentTime = new Date().getTime().toString();
       const randomInt = getRandomInt(0, currentTime);
       this.inputId = `input_${randomInt}`;
-    },
+    }
   },
   watch: {
     maskOptions: {
@@ -74,12 +73,12 @@ export default {
         this.$watch("cleaveInstance.properties.result", this.onInput);
       }
     } else {
-      this.inputElement.addEventListener("input", this.onInput)
+      this.inputElement.addEventListener("input", this.onInput);
     }
   },
-  beforeDestroy () {
-    this.cleaveInstance.destroy()
-  },
+  beforeDestroy() {
+    this.cleaveInstance.destroy();
+  }
 };
 </script>
 <style>
