@@ -1,11 +1,10 @@
-import Vue from "vue";
 import axios from "axios";
 import app from "../main";
 import { HttpStatusCode } from "./constants";
 
 const instance = axios.create({
   // Proxy table webpackDevServer property inside config folder index.js proxies our request to .NET Core server
-  baseURL: "http://localhost:8080/api",
+  baseURL: process.env.BASE_URL, // "http://localhost:8080/api"
   headers: {
     "Content-Type": "application/json"
   }

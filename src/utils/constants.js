@@ -22,3 +22,8 @@ export const SensorType = {
   LIGHT: 3,
   SOIL_HUMIDITY: 4
 }
+
+export const DecimalMask = {
+  blocks: [2, 7],
+  delimiters: ['.']
+}

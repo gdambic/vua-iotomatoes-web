@@ -7,32 +7,42 @@
       <form @submit.prevent="onUpdateFarmSubmit">
         <div class="row">
           <div class="col-lg-3">
-            <fg-input type="text" label="Name" placeholder="Name" v-model="farm.name"/>
+            <fg-input label="Name" placeholder="Name" v-model="farm.name"/>
           </div>
           <div class="col-lg-3">
-            <fg-select label="User" v-model="farm.userId" :options="users" />
+            <fg-select label="User" v-model="farm.userId" :options="users"/>
           </div>
           <div class="col-lg-3">
-            <fg-input type="text" label="Address" placeholder="Address" v-model="farm.address"/>
+            <fg-input label="Address" placeholder="Address" v-model="farm.address"/>
           </div>
           <div class="col-lg-3">
-            <fg-select label="City" v-model="farm.cityId" :options="cities" />
+            <fg-select label="City" v-model="farm.cityId" :options="cities"/>
           </div>
         </div>
         <div class="row">
           <div class="col-lg-3">
-            <fg-input type="text" label="Latitude" placeholder="Latitude" v-model="farm.latitude"/>
+            <fg-input
+              label="Latitude"
+              placeholder="Latitude"
+              v-model="farm.latitude"
+              :mask-options="DecimalMask"
+            />
           </div>
           <div class="col-lg-3">
-            <fg-input type="text" label="Longitude" placeholder="Longitude" v-model="farm.longitude"/>
+            <fg-input
+              label="Longitude"
+              placeholder="Longitude"
+              v-model="farm.longitude"
+              :mask-options="DecimalMask"
+            />
           </div>
           <div class="col-lg-3">
-            <fg-select label="Ruleset" v-model="farm.ruleSetId" :options="rulesets" />
+            <fg-select label="Ruleset" v-model="farm.ruleSetId" :options="rulesets"/>
           </div>
         </div>
         <div class="text-center">
           <button type="submit" class="btn btn-info btn-fill btn-wd">
-            <span class="ti-save icon"></span> Update farm
+            <span class="ti-save icon"></span> Save
           </button>
         </div>
         <div class="clearfix"></div>
@@ -41,9 +51,13 @@
   </div>
 </template>
 <script>
+import { DecimalMask } from "utils/constants";
+
 export default {
   data() {
     return {
+      DecimalMask,
+      users: [],
       cities: [],
       sensors: [],
       actuators: [],

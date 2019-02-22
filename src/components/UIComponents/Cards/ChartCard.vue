@@ -24,6 +24,7 @@
   </div>
 </template>
 <script>
+import { getRandomInt } from "utils"
 import Chart from "chart.js";
 
 export default {
@@ -66,50 +67,48 @@ export default {
   data() {
     return {
       chartId: "no-id",
-      chartElement: null
+      chartInstance: null
     };
   },
   computed: {
-    chartConfig() {
-      return {
-        type: this.chartType,
-        data: {
-          labels: this.chartData.labels,
-          datasets: this.chartData.datasets
-        },
-        options: this.chartOptions
-      }
+    context(){
+      const context = this.$refs[this.chartId];
+      context.height = this.height;
+      return context;
     }
   },
   methods: {
-    /***
-     * Initializes the chart by merging the chart options sent via props and the default chart options
-     */
-    initChart() {
-      const context = this.$refs[this.chartId];
-      context.height = this.height;
-      
-      this.chartElement = new Chart(context, this.chartConfig);
+    initChart(chartData) {
+      this.chartInstance = new Chart(this.context, {
+        type: this.chartType,
+        data: chartData || this.chartData,
+        options: this.chartOptions
+      });
     },
-    /***
-     * Assigns a random id to the chart
-     */
     updateChartId() {
       const currentTime = new Date().getTime().toString();
-      const randomInt = this.getRandomInt(0, currentTime);
+      const randomInt = getRandomInt(0, currentTime);
       this.chartId = `div_${randomInt}`;
     },
-    getRandomInt(min, max) {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
+  },
+  watch: {
+    chartData: {
+      deep: true,
+      handler(data) {
+        this.chartInstance.destroy();
+        this.initChart(data);
+      }
     }
   },
-  created() {
+  beforeMount() {
     this.updateChartId();
-    this.$nextTick(this.initChart);
   },
-  updated(){
-    this.$nextTick(this.initChart);
-  }
+  mounted() {
+    this.initChart();
+  },
+  beforeDestroy () {
+    this.chartInstance.destroy()
+  },
 };
 </script>
 <style>
