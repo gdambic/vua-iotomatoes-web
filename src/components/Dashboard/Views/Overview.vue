@@ -254,20 +254,20 @@ export default {
       ];
     },
     currentLight() {
-      const light = this.getCurrentMeasurement(SensorType.LIGHT);
-      return light ? `${light}%` : "No data";
+      const light = this.getCurrentMeasurement(SensorType.LIGHT) || 0.00;
+      return `${light}%`;
     },
     currentTemperature() {
-      const temp = this.getCurrentMeasurement(SensorType.TEMPERATURE);
-      return temp ? `${temp} &deg;C` : "No data";
+      const temp = this.getCurrentMeasurement(SensorType.TEMPERATURE) || 0.00;
+      return `${temp} &deg;C`;
     },
     currentSoilHumidity() {
-      const soilHum = this.getCurrentMeasurement(SensorType.SOIL_HUMIDITY);
-      return soilHum ? `${soilHum}%` : "No data";
+      const soilHum = this.getCurrentMeasurement(SensorType.SOIL_HUMIDITY) || 0.00;
+      return `${soilHum}%`;
     },
     currentAirHumidity() {
-      const airHum = this.getCurrentMeasurement(SensorType.AIR_HUMIDITY);
-      return airHum ? `${airHum}%` : "No data";
+      const airHum = this.getCurrentMeasurement(SensorType.AIR_HUMIDITY) || 0.00;
+      return `${airHum}%`;
     },
     refreshTimespan() {
       return this.minutesFromLastRefresh > 0
