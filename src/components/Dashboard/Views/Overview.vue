@@ -6,8 +6,19 @@
           <fg-select label="Farm" v-model="searchParams.farmId" :options="farmList"/>
         </div>
         <div class="col-lg-3 col-sm-6">
-          <fg-date v-show="showRange" label="Date range" v-model="dateRangeComputed" range/>
-          <fg-date v-show="!showRange" label="Date" v-model="searchParams.dateFrom"/>
+          <fg-date
+            v-show="!showRange"
+            label="Date"
+            :maxDate="new Date()"
+            v-model="searchParams.dateFrom"
+          />
+          <fg-date
+            v-show="showRange"
+            label="Date range"
+            :maxDate="new Date()"
+            v-model="dateRangeComputed"
+            range
+          />
         </div>
         <div class="col-lg-6 col-sm-12">
           <div class="form-group">
@@ -276,9 +287,9 @@ export default {
         case SensorType.TEMPERATURE:
           return "Temperature";
         case SensorType.AIR_HUMIDITY:
-          return "Air humidity";
+          return "Air humidity (%)";
         case SensorType.SOIL_HUMIDITY:
-          return "Soil humidity";
+          return "Soil humidity (%)";
         default:
           return "";
       }

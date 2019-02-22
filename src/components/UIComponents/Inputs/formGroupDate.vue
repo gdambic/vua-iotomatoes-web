@@ -27,6 +27,8 @@ export default {
     disabled: Boolean,
     placeholder: String,
     value: [String, Number, Array],
+    maxDate: Date,
+    minDate: Date,
     disabledDates: {
       type: Array,
       default: () => []
@@ -51,7 +53,9 @@ export default {
   mounted() {
     let defaultConfig = {
       disable: this.disabledDates,
-      dateFormat: this.dateFormat
+      dateFormat: this.dateFormat,
+      maxDate: this.maxDate,
+      minDate: this.minDate
     }
 
     if(this.range === true){

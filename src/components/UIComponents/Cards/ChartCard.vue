@@ -44,7 +44,9 @@ export default {
     chartOptions: {
       type: Object,
       default: () => {
-        return {};
+        return {
+          maintainAspectRatio: false
+        };
       }
     },
     chartData: {
@@ -55,12 +57,29 @@ export default {
           datasets: []
         };
       }
+    },
+    height: {
+      type: Number,
+      default: 300,
     }
   },
   data() {
     return {
-      chartId: "no-id"
+      chartId: "no-id",
+      chartElement: null
     };
+  },
+  computed: {
+    chartConfig() {
+      return {
+        type: this.chartType,
+        data: {
+          labels: this.chartData.labels,
+          datasets: this.chartData.datasets
+        },
+        options: this.chartOptions
+      }
+    }
   },
   methods: {
     /***
@@ -68,14 +87,9 @@ export default {
      */
     initChart() {
       const context = this.$refs[this.chartId];
-      const chartElement = new Chart(context, {
-        type: this.chartType,
-        data: {
-          labels: this.chartData.labels,
-          datasets: this.chartData.datasets
-        },
-        options: this.chartOptions
-      });
+      context.height = this.height;
+      
+      this.chartElement = new Chart(context, this.chartConfig);
     },
     /***
      * Assigns a random id to the chart
@@ -89,11 +103,11 @@ export default {
       return Math.floor(Math.random() * (max - min + 1)) + min;
     }
   },
-  beforeMount() {
+  created() {
     this.updateChartId();
     this.$nextTick(this.initChart);
   },
-  beforeUpdate(){
+  updated(){
     this.$nextTick(this.initChart);
   }
 };
