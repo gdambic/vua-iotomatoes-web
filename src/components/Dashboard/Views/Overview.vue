@@ -315,11 +315,11 @@ export default {
       return new Promise((resolve, reject) => {
         resolve({
           data: {
-            labels: measurement.labels,
+            labels: measurement ? measurement.labels : [],
             datasets: [
               {
                 label: this.getChartLabel(sensorType),
-                data: measurement.data,
+                data: measurement ? measurement.data : [],
                 backgroundColor: this.getChartColor(sensorType),
                 borderColor: this.getChartColor(sensorType, "1"),
                 borderWidth: 1

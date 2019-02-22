@@ -1,6 +1,6 @@
 <template>
   <div class="form-group">
-    <span class="d-block mt-1">&nbsp;</span>
+    <span class="d-block mt-1" v-if="form">&nbsp;</span>
     <label>
       <input
         type="checkbox"
@@ -20,7 +20,7 @@ export default {
   },
   props: {
     value: {
-      type: String
+      type: String | Number
     },
     modelValue: {
       default: false
@@ -28,6 +28,10 @@ export default {
     label: {
       type: String,
       required: true
+    },
+    form: {
+      type: Boolean,
+      default: false,
     },
     // We set `true-value` and `false-value` to the default true and false so
     // we can always use them instead of checking whether or not they are set.

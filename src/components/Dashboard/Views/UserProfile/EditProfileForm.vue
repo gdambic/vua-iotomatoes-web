@@ -80,7 +80,7 @@ export default {
         const { data } = await this.$api.updateUser(this.user);
         this.$store.commit('updateUser', data);
         this.user = this.$store.state.auth.user;
-        this.$alert.success("Successfully updated data");
+        this.$alert.success("Successfully updated user data");
       } catch (error) {
         this.$alert.error("Failed to update data", error);
       }

@@ -46,8 +46,24 @@
 </script>
 
 <style lang="scss">
+hr {
+  border-top: 1px solid #ccc !important;
+}
+
+.no-wrap {
+  white-space: nowrap;
+}
+
+.monospace {
+  font-family: monospace;
+}
+
 .icon {
   margin-right: 0.8rem;
+}
+
+.m-0 {
+  margin: 0px;
 }
 
 .mt-1 {
@@ -62,6 +78,10 @@
   margin-right: 1.2rem;
 }
 
+.mr-2 {
+  margin-right: 2rem;
+}
+
 .ml-1 {
   margin-left: 1.2rem;
 }
@@ -74,6 +94,19 @@
   display: inline-block;
 }
 
+th {
+  font-size: 90%;
+  text-transform: uppercase;
+  padding-bottom: 10px !important;
+}
+
+th.identifier,
+td.identifier {
+  width: 80px;
+  text-align: center;
+  padding-right: 15px !important;
+}
+
 tr > td {
   padding-left: 0px !important; 
 }
@@ -81,5 +114,20 @@ tr > td {
 .card.card-fixed {
   height: 500px;
   overflow-y: scroll;
+}
+
+.card.card-sm-fixed {
+  height: 300px;
+  overflow-y: scroll;
+}
+
+.card > .header {
+  padding-left: 15px !important;
+}
+
+.map {
+  border-radius: 10px;
+  overflow: hidden;
+  padding-top: 0px !important;
 }
 </style>

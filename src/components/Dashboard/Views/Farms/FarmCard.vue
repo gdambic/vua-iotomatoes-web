@@ -15,7 +15,12 @@
     <div class="content">
       <div class="row">
         <div class="col-lg-12">
-          <google-map :longitude="farm.longitude" :latitude="farm.latitude" :title="farm.name"/>
+          <google-map
+            :longitude="farm.longitude"
+            :latitude="farm.latitude"
+            :title="farm.name"
+            :height="220"
+          />
         </div>
       </div>
       <div class="row mb-1">

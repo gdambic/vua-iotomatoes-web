@@ -45,7 +45,10 @@ export default {
         : this.inputElement.value;
         
       this.$emit("input", inputValue);
-      this.$emit("maskInput", this.cleaveInstance.getRawValue());
+      
+      if(this.cleaveInstance != null) {
+        this.$emit("maskInput", this.cleaveInstance.getRawValue());
+      }
     },
     updateInputId() {
       const currentTime = new Date().getTime().toString();
@@ -77,7 +80,9 @@ export default {
     }
   },
   beforeDestroy() {
-    this.cleaveInstance.destroy();
+    if(this.cleaveInstance != null) {
+      this.cleaveInstance.destroy();
+    }
   }
 };
 </script>

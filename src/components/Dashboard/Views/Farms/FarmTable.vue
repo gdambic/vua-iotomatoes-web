@@ -3,7 +3,7 @@
     <div class="content table-responsive">
       <table class="table">
         <thead>
-          <th>#</th>
+          <th class="identifier">#</th>
           <th>Name</th>
           <th>User</th>
           <th>Address</th>
@@ -14,7 +14,7 @@
         </thead>
         <tbody>
           <tr v-for="farm in farms" :key="farm.id">
-            <td class="text-center">{{ farm.id }}</td>
+            <td class="identifier">{{ farm.id }}</td>
             <td>{{ farm.name }}</td>
             <td>{{ farm.userFullName | default }}</td>
             <td>{{ farm.address }}</td>

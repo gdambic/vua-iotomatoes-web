@@ -23,11 +23,7 @@ instance.interceptors.response.use(
   error => {
     app.$Progress.fail();
 
-    if (
-      error.status === HttpStatusCode.UNAUTHORIZED &&
-      error.config &&
-      !error.config.__isRetryRequest
-    ) {
+    if (error.status === HttpStatusCode.UNAUTHORIZED && error.config && !error.config.__isRetryRequest) {
       app.$store.dispatch("logout");
     }
 
@@ -42,15 +38,15 @@ export const Api = {
   createUser: user => instance.post("/users", user),
   getFarmsForUser: id => instance.get(`/users/${id}/farms`),
   getFarmListForUser: id => instance.get(`/users/${id}/farms/list`),
-  getUsers: () => instance.get('/users'),
-  getUserList: () => instance.get('/users/list'),
+  getUsers: () => instance.get("/users"),
+  getUserList: () => instance.get("/users/list"),
 
   // Farm API
   createFarm: farm => instance.post("/farms", farm),
   updateFarm: farm => instance.put("/farms", farm),
   getFarms: () => instance.get("/farms"),
   getFarm: id => instance.get(`/farms/${id}`),
-  getFarmList: () => instance.get('/farms/list'),
+  getFarmList: () => instance.get("/farms/list"),
 
   // Sensor API
   getSensors: () => instance.get("/sensors"),
@@ -68,9 +64,13 @@ export const Api = {
   getRulesets: () => instance.get("/rulesets"),
   getRulesetList: () => instance.get("/rulesets/list"),
 
+  // Ruleset API
+  getPlants: () => instance.get("/plants"),
+  getPlantList: () => instance.get("/plants/list"),
+
   // SensorMeasurement API
-  getFarmMeasurements: params => instance.get('/sensorMeasurements', { params }),
-  getCurrentFarmMeasurements: farmId => instance.get('/sensorMeasurements/current', { params: { farmId }})
+  getFarmMeasurements: params => instance.get("/sensorMeasurements", { params }),
+  getCurrentFarmMeasurements: farmId => instance.get("/sensorMeasurements/current", { params: { farmId } })
 };
 
 export default {
