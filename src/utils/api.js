@@ -35,9 +35,11 @@ export const Api = {
   // User API
   loginUser: user => instance.post("/users/login", user),
   updateUser: user => instance.put("/users", user),
+  updateUserStatus: id => instance.put(`/users/${id}/status`),
   createUser: user => instance.post("/users", user),
   getFarmsForUser: id => instance.get(`/users/${id}/farms`),
   getFarmListForUser: id => instance.get(`/users/${id}/farms/list`),
+  getUser: id => instance.get(`/users/${id}`),
   getUsers: () => instance.get("/users"),
   getUserList: () => instance.get("/users/list"),
 

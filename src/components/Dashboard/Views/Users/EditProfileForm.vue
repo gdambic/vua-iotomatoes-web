@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="header">
-      <h4 class="title">Edit Profile</h4>
+      <h4 class="title">Basic information</h4>
     </div>
     <div class="content">
       <form @submit.prevent="onSaveUserSubmit">
@@ -11,7 +11,7 @@
               type="text"
               label="Username"
               placeholder="Username"
-              :disabled="true"
+              :disabled="isProfile || isEdit"
               v-model="user.username"
             ></fg-input>
           </div>
@@ -32,7 +32,7 @@
             <fg-input
               type="text"
               label="First Name"
-              :disabled="true"
+              :disabled="isProfile || isEdit"
               placeholder="First Name"
               v-model="user.firstName"
             ></fg-input>
@@ -41,21 +41,28 @@
             <fg-input
               type="text"
               label="Last Name"
-              :disabled="true"
+              :disabled="isProfile || isEdit"
               placeholder="Last Name"
               v-model="user.lastName"
             ></fg-input>
           </div>
         </div>
-        <div class="text-center">
-          <button
-            type="submit"
-            class="btn btn-info btn-fill btn-wd"
-          >
-            <span class="ti-save icon"></span>Save
-          </button>
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="text-center">
+              <button
+                type="button"
+                class="btn btn-secondary btn-wd mr-1"
+                @click="$router.push({ name: 'users' })"
+              >
+                <span class="ti-arrow-left icon"></span>Back
+              </button>
+              <button type="submit" class="btn btn-info btn-fill btn-wd">
+                <span class="ti-save icon"></span>Save
+              </button>
+            </div>
+          </div>
         </div>
-        <div class="clearfix"></div>
       </form>
     </div>
   </div>
@@ -70,32 +77,50 @@ export default {
         email: null,
         password: null,
         firstName: null,
-        lastName: null
+        lastName: null,
+        roleId: 2,
       }
     };
   },
   computed: {
-    isEdit(){
-      return this.$route.name === "edit-user" || this.$route.name === "profile";
+    isProfile() {
+      return this.$route.name === "profile";
     },
-    isCreate(){
-      return this.$router.name === "create-user";
+    isEdit() {
+      return this.$route.name === "edit-user";
+    },
+    isCreate() {
+      return this.$route.name === "create-user";
     }
   },
   methods: {
     async onSaveUserSubmit() {
       try {
-        const { data } = await this.$api.updateUser(this.user);
-        this.$store.commit('updateUser', data);
-        this.user = this.$store.state.auth.user;
-        this.$alert.success("Successfully updated user data");
+        if (this.isProfile || this.isEdit) {
+          const { data } = await this.$api.updateUser(this.user);
+          this.$alert.success("Successfully updated user data");
+
+          if (this.isProfile) {
+            this.$store.commit("updateUser", data);
+            this.user = this.$store.state.auth.user;
+          }
+        } else if(this.isCreate) {
+          await this.$api.createUser(this.user);
+          this.$alert.success("Successfully created user");
+          this.$router.push({ name: 'users' })
+        }
       } catch (error) {
         this.$alert.error("Failed to update data", error);
       }
     }
   },
-  beforeMount() {
-    this.user = this.$store.state.auth.user || {};
+  async beforeMount() {
+    if (this.isProfile) {
+      this.user = this.$store.state.auth.user || {};
+    } else if (this.isEdit) {
+      const response = await this.$api.getUser(this.$route.params.id);
+      this.user = response.data;
+    }
   }
 };
 </script>

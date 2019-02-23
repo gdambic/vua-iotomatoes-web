@@ -26,12 +26,12 @@
             <td>
               <router-link
                 tag="button"
-                class="btn btn-secondary"
+                class="btn btn-secondary mr-1"
                 :to="{ name: 'edit-user', params: { id: user.id }}"
               >
                 <span class="ti-pencil icon"></span>Edit
               </router-link>
-              <button :class="`btn ${user.active ? 'btn-danger' : 'btn-success'}`" @click="$emit('updateStatus', user.id)">
+              <button :class="`btn ${user.active ? 'btn-danger' : 'btn-success'} btn-wd`" @click="$emit('updateStatus', user.id)">
                 <span :class="`${user.active ? 'ti-close' : 'ti-check' } icon`"></span>
                 <span>{{ user.active ? 'Disable' : 'Activate' }}</span>
               </button>

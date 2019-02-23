@@ -19,9 +19,9 @@ router.beforeEach((to, from, next) => {
     if (!isAuthenticated) {
       return next('/login') 
     } else if(to.matched.some(record => record.meta.adminAuth) && !isAdmin){
-      return next({ name: from.name });
+      return next({ name: 'overview' });
     } else if(to.matched.some(record => record.meta.userAuth) && isAdmin){
-      return next({ name: from.name })
+      return next({ name: 'overview' })
     }
     
     next() 

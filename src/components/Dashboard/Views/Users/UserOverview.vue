@@ -9,7 +9,7 @@
           v-model="filterQuery"
         />
       </div>
-      <div class="col-lg-3 col-sm-6" v-if="isAdmin">
+      <div class="col-lg-3 col-sm-6">
         <div class="form-group">
           <label class="d-block">&nbsp;</label>
           <router-link class="btn btn-primary" tag="button" :to="{ name: 'create-user' }">
@@ -19,7 +19,7 @@
       </div>
     </div>
     <hr>
-    <div class="row" v-show="showNoUsersResult && !isAdmin">
+    <div class="row" v-show="showNoUsersResult">
       <div class="col-lg-12 text-center">
         <p>No users found</p>
       </div>
@@ -63,13 +63,22 @@ export default {
     }
   },
   methods: {
-    onUpdateUserStatus(userId) {
-      console.log("user", userId);
+    async onUpdateUserStatus(userId) {
+      try {
+        await this.$api.updateUserStatus(userId);
+        this.$alert.success("Successfully updated user status");
+        await this.refreshUsers();
+      } catch (error) {
+        this.$alert.error("You have failed to update data", error);
+      }
+    },
+    async refreshUsers() {
+      const response = await this.$api.getUsers();
+      this.users = response.data;
     }
   },
   async beforeMount() {
-    const response = await this.$api.getUsers();
-    this.users = response.data;
+    await this.refreshUsers();
   }
 };
 </script>
