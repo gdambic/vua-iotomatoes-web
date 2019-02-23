@@ -74,31 +74,5 @@ export default {
 };
 </script>
 
-<style scoped>
-.content-fixed {
-  height: 500px;
-  overflow-y: scroll;
-}
-
-::-webkit-scrollbar {
-  width: 5px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 10px;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #888;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
+<style>
 </style>

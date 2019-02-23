@@ -1,5 +1,5 @@
 <template>
-  <div class="card card-fixed">
+  <div class="card" style="height: 700px;">
     <div class="content table-responsive">
       <table class="table">
         <thead>
