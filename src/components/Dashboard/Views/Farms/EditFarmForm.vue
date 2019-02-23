@@ -23,7 +23,7 @@
                 <div class="col-lg-4">
                   <fg-input label="Name" placeholder="Name" v-model="farm.name"/>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-4" v-if="isAdmin">
                   <fg-select label="User" v-model="farm.userId" :options="users"/>
                 </div>
                 <div class="col-lg-4">
@@ -83,7 +83,7 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row" v-if="isAdmin">
         <div class="col-lg-4">
           <div class="card card-sm-fixed">
             <div class="header">
@@ -216,6 +216,9 @@ export default {
     },
     isCreate() {
       return this.$route.name === "create-farm";
+    },
+    isAdmin(){
+      return this.$store.getters.isAdmin;
     }
   },
   methods: {

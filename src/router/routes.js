@@ -6,17 +6,21 @@ import NotFound from '../components/GeneralViews/NotFoundPage.vue'
 
 // Admin pages
 import Overview from 'src/components/Dashboard/Views/Overview.vue'
-import UserProfile from 'src/components/Dashboard/Views/UserProfile.vue'
-import Notifications from 'src/components/Dashboard/Views/Notifications.vue'
-import Icons from 'src/components/Dashboard/Views/Icons.vue'
-import Maps from 'src/components/Dashboard/Views/Maps.vue'
-import Typography from 'src/components/Dashboard/Views/Typography.vue'
-import TableList from 'src/components/Dashboard/Views/TableList.vue'
+// import Notifications from 'src/components/Dashboard/Views/Notifications.vue'
+// import Icons from 'src/components/Dashboard/Views/Icons.vue'
+// import Maps from 'src/components/Dashboard/Views/Maps.vue'
+// import Typography from 'src/components/Dashboard/Views/Typography.vue'
+// import TableList from 'src/components/Dashboard/Views/TableList.vue'
 
 // Farm pages
 import Farms from 'src/components/Dashboard/Views/Farms.vue';
 import FarmOverview from 'src/components/Dashboard/Views/Farms/FarmOverview.vue';
 import EditFarmForm from 'src/components/Dashboard/Views/Farms/EditFarmForm.vue';
+
+// User pages
+import Users from 'src/components/Dashboard/Views/Users.vue';
+import UserOverview from "src/components/Dashboard/Views/Users/UserOverview.vue";
+import EditProfileForm from "src/components/Dashboard/Views/Users/EditProfileForm.vue";
 
 const routes = [
   {
@@ -37,32 +41,8 @@ const routes = [
       {
         path: 'profile',
         name: 'profile',
-        component: UserProfile
-      },
-      {
-        path: 'notifications',
-        name: 'notifications',
-        component: Notifications
-      },
-      {
-        path: 'icons',
-        name: 'icons',
-        component: Icons
-      },
-      {
-        path: 'maps',
-        name: 'maps',
-        component: Maps
-      },
-      {
-        path: 'typography',
-        name: 'typography',
-        component: Typography
-      },
-      {
-        path: 'table-list',
-        name: 'table-list',
-        component: TableList
+        component: EditProfileForm,
+        meta: { userAuth: true }
       },
       {
         path: 'farms',
@@ -77,7 +57,8 @@ const routes = [
           {
             path: 'create',
             name: 'create-farm',
-            component: EditFarmForm
+            component: EditFarmForm,
+            meta: { adminAuth: true }
           },
           {
             path: ':id/edit',
@@ -85,6 +66,29 @@ const routes = [
             component: EditFarmForm
           }
         ]
+      },
+      {
+        path: 'users',
+        component: Users,
+        redirect: '/admin/users/overview',
+        children: [
+          {
+            path: 'overview',
+            name: 'users',
+            component: UserOverview
+          },
+          {
+            path: 'create',
+            name: 'create-user',
+            component: EditProfileForm
+          },
+          {
+            path: ':id/edit',
+            name: 'edit-user',
+            component: EditProfileForm
+          }
+        ],
+        meta: { adminAuth: true }
       },
     ],
     meta: {

@@ -14,11 +14,17 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   if(to.matched.some(record => record.meta.requiresAuth)) {
     const isAuthenticated = store.getters.isAuthenticated;
-    if (isAuthenticated) {
-      return next()
+    const isAdmin = store.getters.isAdmin;
+
+    if (!isAuthenticated) {
+      return next('/login') 
+    } else if(to.matched.some(record => record.meta.adminAuth) && !isAdmin){
+      return next({ name: from.name });
+    } else if(to.matched.some(record => record.meta.userAuth) && isAdmin){
+      return next({ name: from.name })
     }
     
-    next('/login') 
+    next() 
   } else {
     next()
   }

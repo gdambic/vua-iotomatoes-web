@@ -16,33 +16,9 @@ const SidebarStore = {
       onlyAdmin: false
     },
     {
-      name: 'Table List',
-      icon: 'ti-view-list-alt',
-      path: '/admin/table-list',
-      onlyAdmin: true
-    },
-    {
-      name: 'Typography',
-      icon: 'ti-text',
-      path: '/admin/typography',
-      onlyAdmin: true
-    },
-    {
-      name: 'Icons',
-      icon: 'ti-pencil-alt2',
-      path: '/admin/icons',
-      onlyAdmin: true
-    },
-    {
-      name: 'Maps',
-      icon: 'ti-map',
-      path: '/admin/maps',
-      onlyAdmin: true
-    },
-    {
-      name: 'Notifications',
-      icon: 'ti-bell',
-      path: '/admin/notifications',
+      name: 'Users',
+      icon: 'ti-user',
+      path: '/admin/users',
       onlyAdmin: true
     }
   ],

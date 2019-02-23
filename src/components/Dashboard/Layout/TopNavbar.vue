@@ -18,7 +18,7 @@
       <div class="navbar-right-menu">
         <ul class="nav navbar-nav navbar-right" v-if="isAuthenticated">
           <drop-down :title="username" icon="ti-user icon">
-            <li>
+            <li v-if="!isAdmin">
               <router-link to="/admin/profile">
                 <i class="ti-settings icon"></i>Settings
               </router-link>
@@ -42,6 +42,9 @@ export default {
     isAuthenticated(){
       return this.$store.getters.isAuthenticated
     },
+    isAdmin(){
+      return this.$store.getters.isAdmin
+    },
     routeName () {
       const { name } = this.$route
       let routeName = this.capitalizeFirstLetter(name);
@@ -55,7 +58,7 @@ export default {
   },
   data () {
     return {
-      username: null
+      username: null,
     }
   },
   methods: {
