@@ -38,5 +38,23 @@ module.exports = {
     // In our experience, they generally work as expected,
     // just be aware of this issue when enabling this option.
     cssSourceMap: false
+  },
+  prod: {
+    env: require('./prod.env'),
+    port: 8081,
+    autoOpenBrowser: true,
+    assetsRoot: path.resolve(__dirname, '../dist'),
+    proxyTable: {
+      '/api': {
+        target: "http://193.198.208.164:13080/",
+        changeOrigin: true
+      }
+    },
+    // CSS Sourcemaps off by default because relative paths are "buggy"
+    // with this option, according to the CSS-Loader README
+    // (https://github.com/webpack/css-loader#sourcemaps)
+    // In our experience, they generally work as expected,
+    // just be aware of this issue when enabling this option.
+    cssSourceMap: false
   }
 }

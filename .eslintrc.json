@@ -1,4 +1,4 @@
-/* {
+{
     "env": {
         "browser": true,
         "commonjs": true,
@@ -25,4 +25,3 @@
         "html"
     ]
 }
- */
