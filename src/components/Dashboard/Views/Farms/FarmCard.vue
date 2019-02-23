@@ -12,7 +12,7 @@
       </router-link>
       <div class="clearfix"></div>
     </div>
-    <div class="content content-fixed">
+    <div class="content">
       <div class="row">
         <div class="col-lg-12">
           <google-map
@@ -49,12 +49,12 @@
           </p>
         </div>
       </div>
-      <div class="row">
+<!--       <div class="row">
         <div class="col-lg-12">
           <label>Description</label>
           <p>{{ farm.description }}</p>
         </div>
-      </div>
+      </div> -->
       <div class="row">
         <div class="col-lg-3">
           <label>Active ruleset</label>
