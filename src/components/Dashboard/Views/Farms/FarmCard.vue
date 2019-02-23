@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <div class="header">
+    <div class="header mb-1">
       <h4 class="title pull-left">{{ farm.name }}</h4>
       <router-link
         class="btn btn-primary pull-right"
@@ -12,7 +12,7 @@
       </router-link>
       <div class="clearfix"></div>
     </div>
-    <div class="content">
+    <div class="content content-fixed">
       <div class="row">
         <div class="col-lg-12">
           <google-map
@@ -74,5 +74,31 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.content-fixed {
+  height: 500px;
+  overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
 </style>

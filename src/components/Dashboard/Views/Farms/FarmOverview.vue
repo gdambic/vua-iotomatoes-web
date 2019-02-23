@@ -20,14 +20,16 @@
       </div>
     </div>
     <div class="row">
-      <div v-if="!isAdmin" v-show="!showNoFarmsResult">
-        <div class="col-lg-6 col-md-6 col-sm-12" v-for="farm in filteredFarms" :key="farm.id">
-          <farm-card :farm="farm" :edit="true"></farm-card>
+      <div class="col-lg-12">
+        <div v-if="!isAdmin" class="row" v-show="!showNoFarmsResult">
+          <div class="col-lg-6 col-md-12 col-sm-12" v-for="farm in filteredFarms" :key="farm.id">
+            <farm-card :farm="farm" :edit="true"></farm-card>
+          </div>
         </div>
-      </div>
-      <div v-else>
-        <div class="col-lg-12">
-          <farm-table :farms="filteredFarms"></farm-table>
+        <div v-else class="row">
+          <div class="col-lg-12">
+            <farm-table :farms="filteredFarms"></farm-table>
+          </div>
         </div>
       </div>
     </div>
@@ -43,7 +45,7 @@ export default {
   data() {
     return {
       farms: [],
-      filterQuery: null,
+      filterQuery: null
     };
   },
   computed: {
@@ -55,7 +57,8 @@ export default {
     },
     filteredFarms() {
       if (this.filterQuery != null && this.filterQuery !== "") {
-        const by = (obj, prop) => obj[prop].toLowerCase().indexOf(this.filterQuery.toLowerCase()) >= 0;
+        const by = (obj, prop) =>
+          obj[prop].toLowerCase().indexOf(this.filterQuery.toLowerCase()) >= 0;
         return this.farms.filter(x => by(x, "name") || by(x, "cityName"));
       }
 

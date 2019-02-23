@@ -1,11 +1,13 @@
 <template>
   <div class="card card-map">
     <div class="map" :style="{ height: `${height}px` }">
-      <div id="map"></div>
+      <div id="map" :ref="mapId"></div>
     </div>
   </div>
 </template>
 <script>
+import { getRandomInt } from "utils"
+
 export default {
   props: {
     latitude: Number,
@@ -19,10 +21,22 @@ export default {
       default: "100%"
     }
   },
+  data(){
+    return {
+      mapId: "no-id"
+    }
+  },
   computed: {
-    mapHeight(){}
+    mapElement(){
+      return this.$refs[this.mapId];
+    }
   },
   methods: {
+    updateMapId() {
+      const currentTime = new Date().getTime().toString();
+      const randomInt = getRandomInt(0, currentTime);
+      this.mapId = `map_${randomInt}`;
+    },
     initMap(latitude, longitude) {
       const mapsLatitudeAndLongitude = new window.google.maps.LatLng(
         latitude || this.latitude,
@@ -96,7 +110,7 @@ export default {
       };
 
       const map = new window.google.maps.Map(
-        document.getElementById("map"),
+        this.mapElement,
         mapOptions
       );
 
@@ -120,6 +134,9 @@ export default {
         this.initMap(undefined, value);
       }
     }
+  },
+  beforeMount(){
+    this.updateMapId();
   },
   mounted() {
     this.initMap();
