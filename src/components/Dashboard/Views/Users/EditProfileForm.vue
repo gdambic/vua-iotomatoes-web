@@ -4,7 +4,7 @@
       <h4 class="title">Edit Profile</h4>
     </div>
     <div class="content">
-      <form @submit.prevent="onUpdateProfileSubmit">
+      <form @submit.prevent="onSaveUserSubmit">
         <div class="row">
           <div class="col-md-4">
             <fg-input
@@ -52,7 +52,7 @@
             type="submit"
             class="btn btn-info btn-fill btn-wd"
           >
-            <span class="ti-save icon"></span> Update Profile
+            <span class="ti-save icon"></span>Save
           </button>
         </div>
         <div class="clearfix"></div>
@@ -74,8 +74,16 @@ export default {
       }
     };
   },
+  computed: {
+    isEdit(){
+      return this.$route.name === "edit-user" || this.$route.name === "profile";
+    },
+    isCreate(){
+      return this.$router.name === "create-user";
+    }
+  },
   methods: {
-    async onUpdateProfileSubmit() {
+    async onSaveUserSubmit() {
       try {
         const { data } = await this.$api.updateUser(this.user);
         this.$store.commit('updateUser', data);

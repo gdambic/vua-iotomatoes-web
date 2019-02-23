@@ -3,14 +3,16 @@
     <div class="content table-responsive">
       <table class="table">
         <thead>
-          <th class="identifier">#</th>
-          <th>Name</th>
-          <th>User</th>
-          <th>Address</th>
-          <th>City</th>
-          <th>Date created</th>
-          <th>Date modified</th>
-          <th>Action</th>
+          <tr>
+            <th class="identifier">#</th>
+            <th>Name</th>
+            <th>User</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>Created</th>
+            <th>Modified</th>
+            <th>Action</th>
+          </tr>
         </thead>
         <tbody>
           <tr v-for="farm in farms" :key="farm.id">

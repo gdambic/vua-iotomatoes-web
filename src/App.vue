@@ -95,21 +95,17 @@ hr {
 }
 
 th {
-  font-size: 90%;
+  font-size: 100% !important;
   text-transform: uppercase;
   padding-bottom: 10px !important;
 }
 
-th.identifier,
-td.identifier {
-  width: 80px;
-  text-align: center;
-  padding-right: 15px !important;
-}
-
-tr > td {
-  padding-left: 0px !important; 
-}
+// th.identifier,
+// td.identifier {
+//   width: 80px;
+//   text-align: center;
+//   padding-right: 15px !important;
+// }
 
 .card.card-fixed {
   height: 500px;

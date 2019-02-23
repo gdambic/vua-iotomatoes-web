@@ -232,7 +232,6 @@ export default {
       return list;
     },
     async onUpdateFarmSubmit() {
-      console.log("save farm", this.farm);
       try {
         if (this.isCreate) {
           await this.$api.createFarm(this.farm);
@@ -243,7 +242,6 @@ export default {
           this.$alert.success("Successfully updated farm data");
         }
       } catch (error) {
-        console.log(error);
         this.$alert.error("Failed to update date", error);
       }
     }
